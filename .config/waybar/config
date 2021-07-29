@@ -1,0 +1,275 @@
+// =============================================================================
+//
+// Waybar configuration
+//
+// Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
+//
+// =============================================================================
+
+{
+    // -------------------------------------------------------------------------
+    // Global configuration
+    // -------------------------------------------------------------------------
+
+    "layer": "top",
+
+    // If height property would be not present, it'd be calculated dynamically
+    "height": 30,
+    "position": "top",
+
+    "modules-left": [
+        "custom/menu",
+        "sway/workspaces",
+        "custom/scratchpad",
+        "sway/mode"
+    ],
+    "modules-center": [
+        "sway/window"
+    ],
+    "modules-right": [
+    	"custom/left-arrow",
+		"custom/screencast",
+		"custom/playerctl",
+        "network",
+        //"bluetooth",
+        "cpu",
+        //"memory",
+        "battery",
+        "temperature",
+        "backlight",
+        "pulseaudio",
+        "custom/pacman",
+		"custom/keyboard-layout",
+        //"sway/language",
+        //"custom/help",
+		"custom/sunset",
+		"idle_inhibitor",
+		"tray",
+        "clock",
+    ],
+
+	// -------------------------------------------------------------------------
+	// user
+	// -------------------------------------------------------------------------
+	"custom/playerctl": {
+		"interval": 1,
+        "tooltip": false,
+        "return-type": "json",
+        "format" : "{icon}",
+        "format-icons": {
+            "Playing": "喇",
+            "Paused": "" 
+        },
+        "exec": "/bin/sh $HOME/.config/waybar/modules/playerctl.sh",
+        // "on-scroll-up": "playerctl ",
+        // "on-scroll-down": "",
+        "on-click": "playerctl play-pause",
+        "on-click-right": "playerctl next"
+    },
+    
+    "custom/sunset": {
+		"interval": 2,
+        "tooltip": false,
+        "return-type": "json",
+        "format" : "{icon}",
+        "format-icons": {
+            "on": "ﯦ" ,
+            "off": "ﯧ" 
+        },
+        "exec": "/bin/sh $HOME/.config/waybar/modules/sunset.sh",
+		"on-click": "swaymsg exec \\$HOME/.config/sway/scripts/sunset.sh 'toggle'",
+    },
+
+    "custom/screencast": {
+		"interval": 1,
+        "tooltip": false,
+        "return-type": "json",
+        "format" : "{icon}",
+        "format-icons": {
+            "run": ""
+        },
+        "exec": "/bin/sh $HOME/.config/sway/scripts/wf-recorder.sh",
+		"on-click": "swaymsg exec 'killall -s SIGINT wf-recorder'",
+    },
+
+    "custom/keyboard-layout": {
+    	"tooltip": false,
+        "exec": "/bin/sh $HOME/.config/waybar/modules/kblayout.sh",
+        "format": " {}"
+    },
+	// -------------------------------------------------------------------------
+	// EX
+	// -------------------------------------------------------------------------
+	"custom/left-arrow": {
+        "format": "",
+        "tooltip": false
+    },
+    "custom/right-arrow": {
+        "format": "",
+        "tooltip": false
+    },    
+
+    // -------------------------------------------------------------------------
+    // Modules
+    // -------------------------------------------------------------------------
+
+    "battery": {
+        "interval": 30,
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format-charging": "󰂄{capacity}%", // Icon: bolt
+        "format": "{icon}{capacity}%",
+        "format-icons": [
+            "󰂃",
+	        "󰁺", // Icon: battery-empty
+            "󰁻", // Icon: battery-quarter
+            "󰁽", // Icon: battery-half
+            "󰂀", // Icon: battery-three-quarters
+            "󰁹"  // Icon: battery-full
+        ],
+        "tooltip": false,
+        "bat": "BAT0"
+    },
+
+    "clock": {
+        "interval": 60,
+		//"format": "{:%e %b %Y %H:%M}",
+        "format": "{:%e/%m %H:%M}",
+        "tooltip": true,
+        "tooltip-format": "<big>{:%B %Y}</big>\n<tt>{calendar}</tt>",
+        "on-click": "swaymsg exec \\$calendar"
+    },
+
+    "cpu": {
+        "interval": 5,
+        "format": "󰍛{usage}%", // Icon: microchip
+        "states": {
+            "warning": 70,
+            "critical": 90
+        },
+        "on-click": "swaymsg exec \\$term_float htop"
+    },
+
+    "memory": {
+        "interval": 5,
+        "format": "󰘚{}%", // Icon: memory
+        "states": {
+            "warning": 70,
+            "critical": 90
+        },
+        "on-click": "swaymsg exec \\$term_float htop"
+    },
+
+    "network": {
+        "interval": 5,
+        "format-wifi": "󰖩 {essid} ({signalStrength}%)", // Icon: wifi
+        "format-ethernet": "󰈀 {bandwidthDownBits}", // Icon: ethernet
+        "format-disconnected": "󱘖",
+        "tooltip-format": "{ifname}: {ipaddr}",
+        "on-click": "swaymsg exec \\$term_float nmtui"
+    },
+
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>",
+        "tooltip": false
+    },
+
+    "sway/window": {
+        "format": "{}",
+        "max-length": 50
+    },
+
+    "backlight": {
+        "format": "{icon} {percent}%",
+        "format-icons": ["󰃞", "󰃟", "󰃠"],
+        "on-scroll-down": "light -A 1",
+        "on-scroll-up": "light -U 1"
+    },
+
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "󰒳",
+            "deactivated": "󰒲"
+        }
+    },
+
+    "pulseaudio": {
+        "scroll-step": 5,
+        "format": "{icon}{volume}%  󰍬{format_source}",
+        "format-bluetooth": "{icon}󰂰 {volume}%  󰍬{format_source}",
+        "format-muted": "󰖁",
+        "format-icons": {
+            "headphones": "󰋋",
+            "handsfree": "󱋿",
+            "headset": "󰋎",
+            "phone": "󰏲",
+            "portable": "󰄝",
+            "car": "󰄋",
+            "default": ["󰕿", "󰖀", "󰕾"]
+        },
+        "on-click": "swaymsg exec \\$pulseaudio"
+    },
+
+    "temperature": {
+      "critical-threshold": 90,
+      "interval": 5,
+      "format": "{icon}{temperatureC}°C",
+      "format-icons": [
+          "󱃃",
+          "󰔏", // Icon: temperature ok
+	      "󰔐"  // Icon: temperature not ok
+      ],
+      "tooltip": true,
+      "on-click": "swaymsg exec \"\\$term_float 'watch sensors'\""
+    },
+
+    "tray": {
+        "icon-size": 20,
+        "spacing": 10
+    },
+
+    "custom/pacman": {
+        "format": "󰀼 {}",
+        "interval": 3600,
+        "exec-if": "[ $(pamac checkupdates -q | wc -l) -gt 0 ]",
+        "exec": "pamac checkupdates -q | wc -l",
+        "on-click": "pamac-manager --updates; pkill -SIGRTMIN+8 waybar",
+    },
+
+    "custom/menu": {
+        "format": "󱘊",
+        "on-click": "swaymsg exec \\$menu",
+        "tooltip": false
+    },
+
+    "custom/help": {
+        "format": "󰑪",
+        "on-click": "swaymsg exec \\$help",
+        "tooltip": false
+    },
+
+    "bluetooth": {
+        "format": "{icon}",
+        "interval": 30,
+        "format-icons": {
+            "enabled": "󰂯",
+            "disabled": "󰂲"
+        },
+        "on-click": "blueberry",
+        "tooltip-format": "{}"
+    },
+    "custom/scratchpad": {
+        "interval": 1,
+        "return-type": "json",
+        "format" : "{icon}",
+        "format-icons": {
+            "one": "󰀿",
+            "many": "󰪴"
+        },
+        "exec": "/bin/sh $HOME/.config/sway/scripts/scratchpad.sh",
+        "on-click": "swaymsg 'scratchpad show'"
+    }
+}

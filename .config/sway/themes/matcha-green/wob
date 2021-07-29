@@ -1,0 +1,7 @@
+WOB_ARGUMENT="\
+--border-color #FF16a085 \
+--bar-color #FF16a085 \
+--background-color #70000000 \
+ --anchor bottom \
+ --anchor center \
+ --margin 40"

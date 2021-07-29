@@ -1,0 +1,38 @@
+set $mode_screenshot "<span foreground='$base0A'>󰄄</span>  \
+<span foreground='$base05'><b>Everything</b></span> <span foreground='$base0A'>(<b>e</b>)</span> \
+<span foreground='$base01'>—</span> \
+<span foreground='$base05'><b>Window</b></span> <span foreground='$base0A'>(<b>w</b>)</span> \
+<span foreground='$base01'>—</span> \
+<span foreground='$base05'><b>Screen</b></span> <span foreground='$base0A'>(<b>s</b>)</span> \
+<span foreground='$base01'>—</span> \
+<span foreground='$base05'><b>Area</b></span> <span foreground='$base0A'>(<b>a</b>)</span>"
+
+set $grimshot $HOME/.config/sway/scripts/grimshot
+
+mode --pango_markup $mode_screenshot {
+
+    # screen = all outputs
+    bindsym --to-code e exec $grimshot --notify copy screen
+    bindsym --to-code Shift+e exec $grimshot --notify save screen
+
+    bindsym --to-code w exec $grimshot --notify copy window
+    bindsym --to-code Shift+w exec $grimshot --notify save window
+
+    # output = currently active output
+    bindsym --to-code s exec $grimshot --notify copy output
+    bindsym --to-code Shift+s exec $grimshot --notify save output
+    
+    # User can pick the area to screenshot
+    bindsym --to-code a exec $grimshot --notify copy area
+    bindsym --to-code Shift+a exec $grimshot --notify save area
+
+    # Return to default mode.
+    bindsym --to-code Escape mode "default"
+    bindsym --to-code Return mode "default"
+}
+
+## Launch // Screenshot Mode ##
+bindsym --to-code $mod+Shift+s mode $mode_screenshot
+
+bindsym --to-code Ctrl+Shift+Print exec $grimshot --notify copy area
+bindsym --to-code Print exec $grimshot --notify save screen
