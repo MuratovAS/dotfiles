@@ -7,8 +7,11 @@
 
 <details>
 <summary>Дополнительные изображения </summary>
+    
 ![Example screen](Design/README/2.png)
+
 ![Example screen](Design/README/3.png)
+
 ![Example screen](Design/README/4.png)
 </details>
 
@@ -37,7 +40,7 @@
 
     На основе `playerctl` реализован модуль для waybar, позволяющий управлять мультимедиа практически из любого плеер, в том числе браузера.
 
-### Немного о составляющих 
+### Немного о составляющих
 
 Основные компоненты:
 
