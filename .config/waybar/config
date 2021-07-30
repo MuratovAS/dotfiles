@@ -76,8 +76,8 @@
             "on": "ﯦ" ,
             "off": "ﯧ" 
         },
-        "exec": "/bin/sh $HOME/.config/waybar/modules/sunset.sh",
-		"on-click": "swaymsg exec \\$HOME/.config/sway/scripts/sunset.sh 'toggle'",
+        "exec": "/bin/sh $HOME/.config/sway/scripts/sunset.sh",
+		"on-click": "swaymsg exec $HOME/.config/sway/scripts/sunset.sh 'toggle'",
     },
 
     "custom/screencast": {

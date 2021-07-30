@@ -2,6 +2,7 @@
 rm -r -f  ./.config    
 mkdir ./.config
 
+cp -r  ~/.config/wlsunset  ./.config/wlsunset
 cp -r  ~/.config/sway ./.config/sway
 cp -r  ~/.config/waybar ./.config/waybar
 cp -r  ~/.config/wlogout ./.config/wlogout
