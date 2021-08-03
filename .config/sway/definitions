@@ -34,8 +34,8 @@ set $locking swaylock --daemonize --config $theme/swaylock
 #
 set $idle swayidle -w \
     timeout 240 'light -G > /tmp/brightness && light -S 10' resume 'light -S $([ -f /tmp/brightness ] && cat /tmp/brightness || echo 100%)' \
-    timeout 300 'exec $locking' \
-    timeout 600 'swaymsg "output * dpms off"' \
+    timeout 600 'exec $locking' \
+    timeout 1200 'swaymsg "output * dpms off"' \
     resume 'swaymsg "output * dpms on"' \
     before-sleep 'exec $locking'
 
@@ -49,14 +49,14 @@ set $shutdown wlogout --buttons-per-row 4
 # pulseaudio command
 set $pulseaudio $term_float pulsemixer
 
-# help command
-set $help $term_float "man $HOME/.config/sway/help.man"
-
 # onscreen bar
 set $onscreen_bar bash $HOME/.config/sway/scripts/wob.sh $theme/wob
 
 # calendar application
 set $calendar $term_float calcurse
+
+#Notification command
+set $notifications mako
 
 # workspace names
 set $ws1 "1"

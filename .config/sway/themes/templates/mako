@@ -20,7 +20,6 @@ default-timeout=5000
 
 border-size=0
 
-
 [urgency=high]
 border-size=2
 border-color=ACCENT_COLOR

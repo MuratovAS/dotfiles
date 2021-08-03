@@ -1,10 +1,7 @@
 set $mode_screenshot "<span foreground='$base0A'>󰄄</span>  \
 <span foreground='$base05'><b>Everything</b></span> <span foreground='$base0A'>(<b>e</b>)</span> \
-<span foreground='$base01'>—</span> \
 <span foreground='$base05'><b>Window</b></span> <span foreground='$base0A'>(<b>w</b>)</span> \
-<span foreground='$base01'>—</span> \
 <span foreground='$base05'><b>Screen</b></span> <span foreground='$base0A'>(<b>s</b>)</span> \
-<span foreground='$base01'>—</span> \
 <span foreground='$base05'><b>Area</b></span> <span foreground='$base0A'>(<b>a</b>)</span>"
 
 set $grimshot $HOME/.config/sway/scripts/grimshot
@@ -28,7 +25,6 @@ mode --pango_markup $mode_screenshot {
 
     # Return to default mode.
     bindsym --to-code Escape mode "default"
-    #bindsym --to-code Return mode "default"
 }
 
 ## Launch // Screenshot Mode ##
