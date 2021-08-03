@@ -12,23 +12,23 @@ set $grimshot $HOME/.config/sway/scripts/grimshot
 mode --pango_markup $mode_screenshot {
 
     # screen = all outputs
-    bindsym --to-code e exec $grimshot --notify copy screen
-    bindsym --to-code Shift+e exec $grimshot --notify save screen
+    bindsym --to-code e exec $grimshot --notify copy screen, mode "default"
+    bindsym --to-code Shift+e exec $grimshot --notify save screen, mode "default"
 
-    bindsym --to-code w exec $grimshot --notify copy window
-    bindsym --to-code Shift+w exec $grimshot --notify save window
+    bindsym --to-code w exec $grimshot --notify copy window, mode "default"
+    bindsym --to-code Shift+w exec $grimshot --notify save window, mode "default"
 
     # output = currently active output
-    bindsym --to-code s exec $grimshot --notify copy output
-    bindsym --to-code Shift+s exec $grimshot --notify save output
+    bindsym --to-code s exec $grimshot --notify copy output, mode "default"
+    bindsym --to-code Shift+s exec $grimshot --notify save output, mode "default"
     
     # User can pick the area to screenshot
-    bindsym --to-code a exec $grimshot --notify copy area
-    bindsym --to-code Shift+a exec $grimshot --notify save area
+    bindsym --to-code a exec $grimshot --notify copy area, mode "default"
+    bindsym --to-code Shift+a exec $grimshot --notify save area, mode "default"
 
     # Return to default mode.
     bindsym --to-code Escape mode "default"
-    bindsym --to-code Return mode "default"
+    #bindsym --to-code Return mode "default"
 }
 
 ## Launch // Screenshot Mode ##

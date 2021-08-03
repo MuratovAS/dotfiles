@@ -39,8 +39,7 @@
         "backlight",
         "pulseaudio",
         "custom/pacman",
-		"custom/keyboard-layout",
-        //"sway/language",
+        "sway/language",
         //"custom/help",
 		"custom/sunset",
 		"idle_inhibitor",
@@ -53,18 +52,18 @@
 	// -------------------------------------------------------------------------
 	"custom/playerctl": {
 		"interval": 1,
-        "tooltip": false,
+        "tooltip": true,
         "return-type": "json",
         "format" : "{icon}",
         "format-icons": {
             "Playing": "喇",
-            "Paused": "" 
+            "Paused": ""
         },
-        "exec": "/bin/sh $HOME/.config/waybar/modules/playerctl.sh",
-        // "on-scroll-up": "playerctl ",
-        // "on-scroll-down": "",
+        "exec": "status=$(playerctl status) && title=$(playerctl metadata title) && artist=$(playerctl metadata artist) && echo {'\"alt\"':'\"'$status'\"', '\"tooltip\"':'\"'$title - $artist'\"'}",
         "on-click": "playerctl play-pause",
-        "on-click-right": "playerctl next"
+        "on-click-right": "playerctl next",
+        "on-scroll-up": "playerctl position 10+", 
+        "on-scroll-down": "playerctl position 10-", 
     },
     
     "custom/sunset": {
@@ -76,7 +75,7 @@
             "on": "ﯦ" ,
             "off": "ﯧ" 
         },
-        "exec": "/bin/sh $HOME/.config/sway/scripts/sunset.sh",
+        "exec": "pkill -0 wlsunset && echo '{\"alt\":\"on\"}' || echo '{\"alt\":\"off\"}'",
 		"on-click": "swaymsg exec $HOME/.config/sway/scripts/sunset.sh 'toggle'",
     },
 
@@ -88,16 +87,11 @@
         "format-icons": {
             "run": ""
         },
-        "exec": "/bin/sh $HOME/.config/sway/scripts/wf-recorder.sh",
+        "exec": "pkill -0 wf-recorder && echo '{\"alt\":\"run\"}' || echo '{\"alt\":\"stop\"}'",
 		"on-click": "swaymsg exec 'killall -s SIGINT wf-recorder'",
     },
-
-    "custom/keyboard-layout": {
-    	"tooltip": false,
-        "exec": "/bin/sh $HOME/.config/waybar/modules/kblayout.sh",
-        "format": " {}"
-    },
-	// -------------------------------------------------------------------------
+    
+    // -------------------------------------------------------------------------
 	// EX
 	// -------------------------------------------------------------------------
 	"custom/left-arrow": {
@@ -143,6 +137,7 @@
     },
 
     "cpu": {
+		"min-length": 5,
         "interval": 5,
         "format": "󰍛{usage}%", // Icon: microchip
         "states": {
@@ -153,6 +148,7 @@
     },
 
     "memory": {
+    	"min-length": 5,
         "interval": 5,
         "format": "󰘚{}%", // Icon: memory
         "states": {
@@ -163,6 +159,7 @@
     },
 
     "network": {
+    	"min-length": 11,
         "interval": 5,
         "format-wifi": "󰖩 {essid} ({signalStrength}%)", // Icon: wifi
         "format-ethernet": "󰈀 {bandwidthDownBits}", // Icon: ethernet
@@ -210,6 +207,7 @@
             "car": "󰄋",
             "default": ["󰕿", "󰖀", "󰕾"]
         },
+        "on-click-right": "swaymsg exec \\amixer sset Capture toggle",
         "on-click": "swaymsg exec \\$pulseaudio"
     },
 
@@ -261,6 +259,12 @@
         "on-click": "blueberry",
         "tooltip-format": "{}"
     },
+    
+    "sway/language": {
+    	"format": " {}",
+    	"min-length": 5,
+    },
+	
     "custom/scratchpad": {
         "interval": 1,
         "return-type": "json",
