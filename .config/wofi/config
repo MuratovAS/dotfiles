@@ -6,5 +6,5 @@ insensitive=true
 hide_scroll=true
 lines=10
 no_actions=true
-term=$HOME/.config/sway/scripts/terminal.sh
+#term=$HOME/.config/sway/scripts/terminal.sh
 width=500

@@ -27,8 +27,6 @@ set $base0D #55b5db
 set $base0E #a074c4
 set $base0F #8a553f
 
-set $transparent-background-color #141a1be6
-
 # Basic color configuration using the Base16 variables for windows and borders.
 # Property Name         Border  BG      Text    Indicator Child Border
 client.focused          $base05 $base0C $base00 $base0C $base0C
@@ -38,4 +36,4 @@ client.urgent           $base08 $base08 $base00 $base08 $base08
 client.placeholder      $base00 $base00 $base05 $base00 $base00
 client.background       $base07
 
-set $theme_template_script "s/GTK_THEME/$gtk-theme/g; s/ICON_THEME/$icon-theme/g; s/CURSOR_THEME/$cursor-theme/g; s/GUI_FONT/$gui-font/g; s/KVANTUM_THEME/$kvantum-theme/g; s/BACKGROUND_COLOR/$base00/g; s/ACCENT_COLOR/$base0C/g; s/TEXT_COLOR/$base06/g; s/TERM_FONT/$term-font/g; s/TRANSPARENT_BG_COLOR/$transparent-background-color/g;"
+set $theme_template_script "s/GTK_THEME/$gtk-theme/g; s/KVANTUM_THEME/$kvantum-theme/g; s/ICON_THEME/$icon-theme/g; s/CURSOR_THEME/$cursor-theme/g; s/GUI_FONT/$gui-font/g; s/TERM_FONT/$term-font/g;"

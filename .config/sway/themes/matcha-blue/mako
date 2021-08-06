@@ -1,11 +1,11 @@
 # default config for the mako notification daemon
 
 layer=overlay
-text-color=TEXT_COLOR
-font=TERM_FONT
+text-color=#eeeeee
+font=RobotoMono Nerd Font 14
 
-#background-color=BACKGROUND_COLOR
-background-color=TRANSPARENT_BG_COLOR
+#background-color=#202530
+background-color=#141a1be6
 border-radius=10
 width=400
 height=200
@@ -22,4 +22,4 @@ border-size=0
 
 [urgency=high]
 border-size=2
-border-color=ACCENT_COLOR
+border-color=#db7b55
