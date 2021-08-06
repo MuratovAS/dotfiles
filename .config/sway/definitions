@@ -3,20 +3,20 @@
 # Logo key. Use Mod1 for Alt and Mod4 for Super.
 set $mod Mod4
 
-# Home row direction keys, like vim
-set $left h
-set $down j
-set $up k
-set $right l
+# Add --to-code to bindsym, support for non-latin layouts
+set $bindsym bindsym --to-code
+# For user's convenience, the same for unbindsym
+set $unbindsym unbindsym --to-code
 
 set $theme $HOME/.config/sway/themes/matcha-orange
 set $background $HOME/.config/sway/background/3.png
 output "Virtual-1" resolution 1440x900  position 0,0 scale 1
 
+
 # Your preferred terminal emulator
-set $term $HOME/.config/sway/scripts/terminal.sh
-set $term_float $term float
-set $term_float_portrait $term float_portrait
+set $term kitty
+set $term_float $term --class=floating_shell
+set $term_float_portrait $term --class=floating_shell_portrait
 
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
@@ -56,7 +56,7 @@ set $onscreen_bar bash $HOME/.config/sway/scripts/wob.sh $theme/wob
 set $calendar $term_float calcurse
 
 #Notification command
-set $notifications mako
+set $notifications mako -c $theme/mako
 
 # workspace names
 set $ws1 "1"
@@ -71,4 +71,4 @@ set $ws9 "9"
 set $ws10 "10"
  
 # show clipboard history
-bindsym $mod+h exec clipman pick --tool="wofi" --max-items=30 --histpath="~/.local/share/clipman.json"
+bindsym --to-code $mod+h exec clipman pick --tool="wofi" --max-items=30 --histpath="~/.local/share/clipman.json" ###История буфера обмена 

@@ -3,13 +3,13 @@
 # Basics:
 #
 ## Launch // Terminal ##
-bindsym --to-code $mod+Return exec $term
+bindsym --to-code $mod+Return exec $term ;###Запустить терминал 
 
 ## Action // Kill focused window ##
-bindsym --to-code $mod+Shift+q kill
+bindsym --to-code $mod+Shift+q kill ;###Закрыть окно
 
 ## Launch // Launcher ##
-bindsym --to-code $mod+d exec $menu
+bindsym --to-code $mod+d exec $menu ;###Список приложений
 
 # Drag floating windows by holding down $mod and left mouse button.
 # Resize them with right mouse button + $mod.
@@ -19,10 +19,10 @@ bindsym --to-code $mod+d exec $menu
 floating_modifier $mod normal
 
 ## Action // Reload Sway Configuration ##
-bindsym --to-code $mod+Shift+c reload
+bindsym --to-code $mod+Shift+c reload ;###Перезагрузить Sway
 
 ## Launch // Exit Menu ##
-bindsym --to-code $mod+Shift+e exec $shutdown
+bindsym --to-code $mod+Shift+e exec $shutdown ;###Завершить сеанс
 
 ## Action // Increase volume of Master ##
 bindsym --to-code XF86AudioRaiseVolume exec $onscreen_bar $(amixer sset Master 5%+ | sed -En 's/.*\[([0-9]+)%\].*/\1/p' | head -1)
@@ -48,16 +48,16 @@ bindsym --to-code XF86TouchpadToggle input type:touchpad events toggle enabled d
 #
 # Move your focus around
 ## Navigation // Move focus // $mod + ↑ ↓ ← → ##
-bindsym --to-code $mod+Left focus left
-bindsym --to-code $mod+Down focus down
-bindsym --to-code $mod+Up focus up
-bindsym --to-code $mod+Right focus right
+bindsym --to-code $mod+Left focus left ;###Изменить фокус
+bindsym --to-code $mod+Down focus down ;###Изменить фокус
+bindsym --to-code $mod+Up focus up ;###Изменить фокус
+bindsym --to-code $mod+Right focus right ;###Изменить фокус
 
 ## Navigation // Move focussed window // $mod + Shift + ↑ ↓ ← → ##
-bindsym --to-code $mod+Shift+Left move left
-bindsym --to-code $mod+Shift+Down move down
-bindsym --to-code $mod+Shift+Up move up
-bindsym --to-code $mod+Shift+Right move right
+bindsym --to-code $mod+Shift+Left move left ;###Переместить окно
+bindsym --to-code $mod+Shift+Down move down ;###Переместить окно
+bindsym --to-code $mod+Shift+Up move up ;###Переместить окно
+bindsym --to-code $mod+Shift+Right move right ;###Переместить окно
 
 #
 # Workspaces:
@@ -90,31 +90,28 @@ bindsym --to-code $mod+Shift+0 move container to workspace number $ws10
 # Layout stuff:
 #
 ## Setting // Split windows horizontally ##
-bindsym --to-code $mod+b splith
+bindsym --to-code $mod+b splith ;###Разделять окна по горизонтали
 ## Setting // Split windows vertically ##
-bindsym --to-code $mod+v splitv
+bindsym --to-code $mod+v splitv ;###Разделить окна по вертикали
 
 ## Action // Switch to window stacking ##
-bindsym --to-code $mod+s layout stacking
+bindsym --to-code $mod+s layout stacking ;###Перейти к наложению окон
 ## Action // Switch to window tabbing ##
-bindsym --to-code $mod+w layout tabbed
+bindsym --to-code $mod+w layout tabbed ;###Переключиться на табуляцию окон
 ## Action // Toggle window splitting ##
-bindsym --to-code $mod+e layout toggle split
+bindsym --to-code $mod+e layout toggle split ;###Переключить разделение окна
 
 ## Action // Toggle fullscreen ##
-bindsym --to-code $mod+f fullscreen
+bindsym --to-code $mod+f fullscreen ;###Окно на весь экран
 
 ## Action // Toggle floating ##
-bindsym --to-code $mod+Shift+space floating toggle
+bindsym --to-code $mod+Shift+space floating toggle ;###Плавающее окно
 
 ## Navigation // Swap focus between the tiling area and the floating area ##
-bindsym --to-code $mod+space focus mode_toggle
+bindsym --to-code $mod+space focus mode_toggle ;###Поменять фокус
 
 ## Navigation // Swap focus to the parent window ##
-bindsym --to-code $mod+a focus parent
-
-## Launch // Help ##
-bindsym --to-code $mod+question exec $help
+bindsym --to-code $mod+a focus parent ;###Поменять фокус на родительское окно 
 
 default_border pixel 1
 hide_edge_borders smart

@@ -1,21 +1,9 @@
 set $mode_resize "<span foreground='$base0A'>󰁌</span>  \
-<span foreground='$base05'><b>Resize</b></span> <span foreground='$base0A'>(<b>h/j/k/l</b>)</span> \
+<span foreground='$base05'><b>Resize</b></span> <span foreground='$base0A'>(<b>← ↓ ↑ →</b>)</span> \
 <span foreground='$base05'><b>Increase Gaps</b></span> <span foreground='$base0A'>(<b>+</b>)</span> \
 <span foreground='$base05'><b>Decrease Gaps</b></span> <span foreground='$base0A'>(<b>-</b>)</span>"
 
 mode --pango_markup $mode_resize {
-    # left will shrink the containers width
-    # right will grow the containers width
-    # up will shrink the containers height
-    # down will grow the containers height
-    bindsym --to-code $left resize shrink width 10px
-    bindsym --to-code $down resize grow height 10px
-    bindsym --to-code $up resize shrink height 10px
-    bindsym --to-code $right resize grow width 10px
-    bindsym --to-code Shift+$left resize shrink width 20px
-    bindsym --to-code Shift+$down resize grow height 20px
-    bindsym --to-code Shift+$up resize shrink height 20px
-    bindsym --to-code Shift+$right resize grow width 20px
 
     # Ditto, with arrow keys
     bindsym --to-code Left resize shrink width 10px
@@ -32,10 +20,10 @@ mode --pango_markup $mode_resize {
     bindsym --to-code plus gaps inner current plus 5px
 
     # Return to default mode
-    bindsym --to-code Return mode "default"
+    #bindsym --to-code Return mode "default"
     bindsym --to-code Escape mode "default"
 }
 ## Launch // Resize Mode ##
-bindsym --to-code $mod+r mode $mode_resize
+bindsym --to-code $mod+r mode $mode_resize ;###Изменить размер окон 
 gaps inner 5px
 gaps outer 5px

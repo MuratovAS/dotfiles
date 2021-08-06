@@ -33,4 +33,4 @@ mode --pango_markup $mode_recording {
 }
 
 ## Launch // Recording Mode ##
-bindsym --to-code $mod+Shift+r mode $mode_recording
+bindsym --to-code $mod+Shift+r mode $mode_recording ;###Запись экрана
