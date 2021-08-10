@@ -4,7 +4,6 @@ layer=overlay
 text-color=#eeeeee
 font=RobotoMono Nerd Font 14
 
-#background-color=#202530
 background-color=#141a1be6
 border-radius=10
 width=400

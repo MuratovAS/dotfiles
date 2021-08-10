@@ -3,15 +3,14 @@ targetSearch="$HOME/.calendars/-/*"
 
 vdirsyncer sync
 
-accent_color="#b04b10d6"
-text_color="#ffffff8e"
-text_color_1="#ff9191bb"
-text_color_5="#fff491bb"
-text_color_9="#91d1ffbb"
+text_color="#ffffffb1"
+text_color_1="#ff9191bf"
+text_color_5="#fff491bf"
+text_color_9="#91d1ffbf"
 
 
 echo '<span size="13000" face="monospace" foreground="'$text_color'">'
-echo '<span size="20000" foreground="'$text_color'" face="sans-serif">     Todo list</span>'
+echo '<span size="20000" foreground="'$text_color'" face="sans-serif">    Todo list</span>'
 for file in $targetSearch; do
 	let "tmp=$(cat $file | grep 'COMPLETED:' | sed -n '/.*:/s///p'| grep -o '^[^T]*') + 0 "
 	if [[ "$tmp" != "0" && "$(date '+%Y%m%d')" -gt "$tmp" ]];then
@@ -43,7 +42,7 @@ for file in $targetSearch; do
 	printf '</span>'
 	
 	printf ";"
-	tmp=$(cat $file | grep 'DESCRIPTION:' | sed -n '/.*:/s///p')
+	tmp=$(cat $file | grep 'DESCRIPTION:' | sed -n '/.*:/s///p' | cut -c1-32)
 	if [ "$tmp" != "" ];then
 		printf "@@@<i>"
 		if [[ $(cat $file | grep "RELATED-TO") != "" ]];then
@@ -61,7 +60,7 @@ for file in $targetSearch; do
 		if [[ $(cat $file | grep "RELATED-TO") != "" ]];then
 			printf "  "
 		fi 
-		printf "+"
+		printf '+ '
 		printf "%s</i></span>" "$tmp"
 	fi
 
@@ -94,9 +93,15 @@ for file in $targetSearch; do
 done | sort  -t ";" -k7 -k6 -k1\
 	 | sed 's/COMPLETED/X/' \
 	 | sed 's/IN-PROCESS/%/' \
+	 | sed 's/Дом//' \
+	 | sed 's/Работа//' \
+	 | sed 's/Отдых//' \
+	 | sed 's/Проекты//' \
+	 | sed 's/Учеба//' \
 	 | cut -d ";" -f7,8 --complement \
 	 | sed 's/@@@/\n<span>;;/g' \
-	 | column -t -s ";" \
+	 | cut -d ";" -f4 --complement \
+	 | column -t -s ";" -o " " \
 	 | sed "s/<span>0/<span> /"\
 	 | sed "s/<span>1/<span foreground=\"$text_color_1\"> /"\
 	 | sed "s/<span>2/<span foreground=\"$text_color_1\"> /"\

@@ -7,10 +7,12 @@
 
 <details>
 <summary>Дополнительные изображения </summary>
-    
+
 ![Example screen](Design/README/2.png)
 
 ![Example screen](Design/README/3.png)
+
+![Example screen](Design/README/5.png)
 
 ![Example screen](Design/README/4.png)
 </details>
@@ -23,7 +25,19 @@
 
      ![](Design/README/10.png)
 
-2. Переработанная система записи с экрана
+2. Виджет рабочего стола с подсказкой горячих клавиш 
+
+    Данная подсказка выводится по средствам nwg-wrapper. Список клавиш формируется автоматически, напрямую из файлов конфигурации sway.
+
+    ![Example screen](Design/README/14.png)
+    
+3. Виджет Todo
+
+    Очень полезное дополнение, позволяет отображать заметки на рабочем столе в текстовой форме. Для работы требует vdirsyncer, он для синхронизации календарей по средствам протокола caldav. Например из вашего nextcloud.
+
+    ![Example screen](Design/README/13.png)
+
+4. Переработанная система записи с экрана
 
     Предусмотрена  запись экрана так и области экрана. Результат можно сохранить в **GIF**, **MP4**.
 
@@ -32,11 +46,11 @@
 
      ![](Design/README/11.png)![Example screen](Design/README/12.png)
 
-3. Реализован “ночной режим” 
+5. Реализован “ночной режим” 
 
     В соответствие с расписанием включается фильтр синего цвета, с плавным изменением температуры. Настройка осуществляется через файле настроек `.config/wlsunset/config`.  Так же реализован модуль для waybar, позволяющий включать и отключать фильтр. Его можно найти по значку “ ﯦ ”
-    
-4. Модуль контроля мультимедиа. 
+
+6. Модуль контроля мультимедиа. 
 
     На основе `playerctl` реализован модуль для waybar, позволяющий управлять мультимедиа практически из любого плеер, в том числе браузера.
 
@@ -44,22 +58,26 @@
 
 Основные компоненты:
 
+универсальное меню
+
 - [waybar](https://github.com/Alexays/Waybar) (панель)
-- [wlogout](https://github.com/ArtsyMacaw/wlogout) (меню выхода из системы)
+- [rofi](https://github.com/lbonn/rofi) (универсальное меню)
 - [mako](https://github.com/emersion/mako) (уведомления)
-- [wofi](https://github.com/tsujp/wofi) (универсальное меню, в частности меню приложений)
 - [swaylock](https://github.com/mortie/swaylock-effects) (экран блокировки)
 - [wob](https://github.com/francma/wob) (Overlay Bar)
 - [grim](https://github.com/emersion/grim) (снимок экрана)
 - [wf-recorder](https://github.com/ammen99/wf-recorder) (запись экрана)
 - [wlsunset](https://sr.ht/~kennylevinsen/wlsunset/) (ночной режим)
 - [playerctl](https://github.com/altdesktop/playerctl) (управление мультимедиа)
+- [wlogout](https://github.com/ArtsyMacaw/wlogout) (DELETED) (меню выхода из системы)
+- [wofi](https://github.com/tsujp/wofi) (DELETED) (меню приложений)
 
 Вспомогательные модули:
 - [flashfocus](https://github.com/fennerm/flashfocus) (анимация фокуса на окне)
 - [sworkstyle](https://github.com/Lyr-7D1h/swayest_workstyle) (визуализирует запущенные приложения)
 - [sway-xkb-switcher](https://github.com/nmukhachev/sway-xkb-switcher) (запоминает раскладку клавиатуры приложения)
 - [autotiling](https://github.com/nwg-piotr/autotiling) (позволяет автоматизировать разделение экрана)
+- [nwg-wrapper](https://github.com/nwg-piotr/nwg-wrapper) (виджеты рабочего стола)
 
 <details>
 <summary>Многое другое ……</summary>
@@ -73,7 +91,7 @@
 Дополнительные приложения:
 - [mc](https://github.com/MidnightCommander/mc) (файловый менеджер)
 - [micro](https://github.com/zyedidia/micro) (текстовый редактор)
-- [calcurse](https://github.com/lfos/calcurse) (календарь) 
+- [vdirsyncer](https://github.com/pimutils/vdirsyncer) (программа для синхронизации заметок и календарей по средствам протокола CalDav)
 - [clipman](https://github.com/yory8/clipman) (менеджер буфера обмена)
 </details>
 
@@ -106,3 +124,8 @@ options v4l2loopback video_nr=10
 options v4l2loopback card_label="Virtual cam - screencast" 
 options v4l2loopback exclusive_caps=1
 ~~~
+
+### Источники
+
+Конфигурации rofi основаны на примерах из репозитория: https://github.com/adi1090x/rofi
+

@@ -3,8 +3,10 @@ targetSearch="
 $HOME/.config/sway/modes/
 $HOME/.config/sway/definitions"
 
-accent_color="#b04b10d6"
-text_color="#ffffff8e"
+
+[[ -f "$HOME/.config/nwg-wrapper/theme" ]] && source "$HOME/.config/nwg-wrapper/theme"
+accent_color=${accent_color:-"#ffffff8e"}
+text_color=${text_color:-"#ffffff8e"}
 
 count="0"
 echo '<span size="13000" face="monospace" foreground="'$text_color'">'

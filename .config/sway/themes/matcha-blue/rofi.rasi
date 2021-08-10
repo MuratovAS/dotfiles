@@ -1,0 +1,14 @@
+*{
+    bg-alt:			#00000000;
+
+    bg-tr-light:	#FFFFFF15;
+    bg-tr-dark:		#141a1be6;
+    
+    text-dim: 		#d6d6d6;
+    text: 			#eeeeee;
+    
+    accent: 		#5fb8de;
+    
+    on:         	#44ad4d;
+    off:        	#fb4934;
+}

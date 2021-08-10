@@ -154,7 +154,6 @@
     },
 
     "cpu": {
-		"min-length": 5,
         "interval": 5,
         "format": "󰍛{usage}%", // Icon: microchip
         "states": {

@@ -12,16 +12,12 @@ set $theme $HOME/.config/sway/themes/matcha-orange
 set $background $HOME/.config/sway/background/3.png
 output "Virtual-1" resolution 1440x900  position 0,0 scale 1
 
+set $rofi_dir $HOME/.config/rofi/
 
 # Your preferred terminal emulator
 set $term kitty
 set $term_float $term --class=floating_shell
 set $term_float_portrait $term --class=floating_shell_portrait
-
-# Your preferred application launcher
-# Note: pass the final command to swaymsg so that the resulting window can be opened
-# on the original workspace that the command was run on.
-set $menu wofi --show 'drun,run' -I --exec-search --prompt "Run Command" --term $term 
 
 ### Lockscreen configuration
 #
@@ -44,7 +40,8 @@ set $statusbar waybar
 set $waybar_position top
 
 # shutdown command
-set $shutdown wlogout --buttons-per-row 4
+#set $shutdown wlogout --buttons-per-row 4
+set $shutdown bash $rofi_dir/logout/logout.sh
 
 # pulseaudio command
 set $pulseaudio $term_float pulsemixer
@@ -53,10 +50,14 @@ set $pulseaudio $term_float pulsemixer
 set $onscreen_bar bash $HOME/.config/sway/scripts/wob.sh $theme/wob
 
 # calendar application
-set $calendar $term_float calcurse
+set $calendar $term_float khal
 
 #Notification command
 set $notifications mako -c $theme/mako
+
+# Your preferred application launcher
+#set $menu wofi --show 'drun,run' -I --exec-search --prompt "Run Command" --term $term 
+set $menu rofi -no-lazy-grab -show drun -modi drun -theme $rofi_dir/launcher_icon/blurry
 
 # workspace names
 set $ws1 "1"
@@ -71,4 +72,4 @@ set $ws9 "9"
 set $ws10 "10"
  
 # show clipboard history
-bindsym --to-code $mod+h exec clipman pick --tool="wofi" --max-items=30 --histpath="~/.local/share/clipman.json" ###История буфера обмена 
+bindsym --to-code $mod+Shift+v exec clipman pick --tool="rofi" --tool-args="-theme '$rofi_dir/clipman/style_8'"  --histpath="~/.local/share/clipman.json" ###История буфера обмена 
