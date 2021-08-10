@@ -8,13 +8,13 @@
 <details>
 <summary>Дополнительные изображения </summary>
 
-![Example screen](Design/README/2.png)
+![Example screen](Design/README/6.png)
 
-![Example screen](Design/README/3.png)
+![Example screen](Design/README/7.png)
 
 ![Example screen](Design/README/5.png)
 
-![Example screen](Design/README/4.png)
+![Example screen](Design/README/3.png)
 </details>
 
 ### Отличительные особенности
