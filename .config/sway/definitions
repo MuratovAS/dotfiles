@@ -50,7 +50,7 @@ set $pulseaudio $term_float pulsemixer
 set $onscreen_bar bash $HOME/.config/sway/scripts/wob.sh $theme/wob
 
 # calendar application
-set $calendar $term_float khal
+set $calendar $term_float khal interactive
 
 #Notification command
 set $notifications mako -c $theme/mako

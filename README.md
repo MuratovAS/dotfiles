@@ -61,7 +61,7 @@
 универсальное меню
 
 - [waybar](https://github.com/Alexays/Waybar) (панель)
-- [rofi](https://github.com/lbonn/rofi) (универсальное меню)
+- [rofi](https://github.com/lbonn/rofi) **1.6.1** (универсальное меню)
 - [mako](https://github.com/emersion/mako) (уведомления)
 - [swaylock](https://github.com/mortie/swaylock-effects) (экран блокировки)
 - [wob](https://github.com/francma/wob) (Overlay Bar)

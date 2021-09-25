@@ -13,7 +13,7 @@ is_running_on_this_screen() {
 }
 
 source $1
-new_value=$2
+new_value=$2 # null or a percent; no checking!!
 
 wob_pipe=~/.cache/$( basename $SWAYSOCK ).wob
 

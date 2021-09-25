@@ -1,5 +1,5 @@
 #!/bin/bash
-targetSearch="$HOME/.calendars/-/*"
+targetSearch="$HOME/.calendars/tasks/*"
 
 vdirsyncer sync
 
