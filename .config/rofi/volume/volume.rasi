@@ -35,7 +35,7 @@ prompt {
 	font:							"feather 64";
     horizontal-align:               0.5;
     vertical-align:                 0.5;
-    margin:                         0px 0px 62px 62px;
+    margin:                         0px 0px 0px 62px;
     background-color:               @bg-alt;
 	text-color: 					@accent;
     padding:                        10px 10px 10px 10px;
@@ -73,12 +73,17 @@ element {
     border-radius:                  10px;
 }
 
+element-icon {
+	background-color:               @bg-alt;
+}
+
+
 element-text {
+	background-color:               @bg-alt;
 	font:							"feather 24";
     expand:                         false;
     horizontal-align:               0.5;
-    vertical-align:                 0.5;
-    margin:                         18px 0px 0px 0px;
+	vertical-align:                 0.5;
 }
 
 element selected {

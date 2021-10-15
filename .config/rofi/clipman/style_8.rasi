@@ -105,6 +105,8 @@ element-icon {
 }
 
 element-text {
+	background-color:               @bg-alt;
+	text-color:                     @text;
     expand:                         true;
     horizontal-align:               0;
     vertical-align:                 0.5;

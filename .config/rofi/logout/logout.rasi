@@ -78,8 +78,7 @@ mainbox {
     background-color:               @bg-alt;
     children:                       [ inputbar, listview ];
     spacing:                        15px;
-    margin:                         40px;
-}
+    margin:                         40px;}
 
 element {
     background-color:               @bg-tr-light;
@@ -88,12 +87,25 @@ element {
     border-radius:                  20px;
 }
 
+element-icon {
+	background-color:               @bg-alt;
+}
+
 element-text {
+	background-color:               @bg-alt;
 	font:							"feather 32";
     expand:                         true;
     horizontal-align:               0.5;
     vertical-align:                 0;
-    margin:                         25px 0px 65px 0px;
+    margin:                         25px 0px 45px 0px;
+}
+
+element selected {
+    background-color:               @accent;
+    text-color:                     @bg-tr-dark;
+    border:                  		0px;
+    border-radius:                  20px;
+    border-color:                  	@border;
 }
 
 element normal.urgent,
@@ -107,14 +119,6 @@ element normal.active,
 element alternate.active {
     background-color:               @on;
     text-color:                     @bg-tr-dark;
-}
-
-element selected {
-    background-color:               @accent;
-    text-color:                     @bg-tr-dark;
-    border:                  		0px;
-    border-radius:                  20px;
-    border-color:                  	@border;
 }
 
 element selected.urgent {

@@ -96,11 +96,15 @@ element {
 }
 
 element-icon {
+	background-color:               @bg-alt;
+    horizontal-align:               0.5;
     size:                           64px;
     border:                         0px;
 }
 
 element-text {
+	background-color:               @bg-alt;
+	text-color:                     @text;
     expand:                         true;
     horizontal-align:               0.5;
     vertical-align:                 0.5;

@@ -102,11 +102,15 @@ element {
 }
 
 element-icon {
+	background-color:               @bg-alt;
+    vertical-align:                 0.5;
     size:                           28px;
     border:                         0px;
 }
 
 element-text {
+	background-color:               @bg-alt;
+	text-color:                     @text;
     expand:                         true;
     horizontal-align:               0;
     vertical-align:                 0.5;
