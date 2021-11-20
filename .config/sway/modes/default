@@ -3,7 +3,7 @@
 # Basics:
 #
 ## Launch // Terminal ##
-bindsym --to-code $mod+Return exec $term ;###Запустить терминал 
+bindsym --to-code $mod+Return exec $term ;###Запустить терминал
 
 ## Action // Kill focused window ##
 bindsym --to-code $mod+Shift+q kill ;###Закрыть окно
@@ -73,6 +73,8 @@ bindsym --to-code $mod+7 workspace number $ws7
 bindsym --to-code $mod+8 workspace number $ws8
 bindsym --to-code $mod+9 workspace number $ws9
 bindsym --to-code $mod+0 workspace number $ws10
+bindsym --to-code $mod+p workspace prev
+bindsym --to-code $mod+n workspace next
 
 ## Action // Move focussed window to workspace // $mod + Shift + [number] ##
 bindsym --to-code $mod+Shift+1 move container to workspace number $ws1
@@ -108,10 +110,10 @@ bindsym --to-code $mod+f fullscreen ;###Окно на весь экран
 bindsym --to-code $mod+Shift+space floating toggle ;###Плавающее окно
 
 ## Navigation // Swap focus between the tiling area and the floating area ##
-bindsym --to-code $mod+space focus mode_toggle ;###Поменять фокус
+bindsym --to-code ctrl+space focus mode_toggle ;###Поменять фокус
 
 ## Navigation // Swap focus to the parent window ##
-bindsym --to-code $mod+a focus parent ;###Поменять фокус на родительское окно 
+bindsym --to-code $mod+a focus parent ;###Поменять фокус на родительское окно
 
 default_border pixel 1
 hide_edge_borders smart
