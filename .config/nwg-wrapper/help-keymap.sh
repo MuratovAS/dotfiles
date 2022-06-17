@@ -1,6 +1,7 @@
 #!/bin/bash
 targetSearch="
 $HOME/.config/sway/modes/
+$HOME/.config/sway/outputs/
 $HOME/.config/sway/definitions"
 
 

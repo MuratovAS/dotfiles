@@ -25,19 +25,34 @@ bindsym --to-code $mod+Shift+c reload ;###Перезагрузить Sway
 bindsym --to-code $mod+Shift+e exec $shutdown ;###Завершить сеанс
 
 ## Action // Increase volume of Master ##
-bindsym --to-code XF86AudioRaiseVolume exec $onscreen_bar $(amixer sset Master 5%+ | sed -En 's/.*\[([0-9]+)%\].*/\1/p' | head -1)
+bindsym --to-code XF86AudioRaiseVolume exec $volume_up
 
 ## Action // Decrease volume of Master ##
-bindsym --to-code XF86AudioLowerVolume exec $onscreen_bar $(amixer sset Master 5%- | sed -En 's/.*\[([0-9]+)%\].*/\1/p' | head -1)
+bindsym --to-code XF86AudioLowerVolume exec $volume_down
 
 ## Action // Mute volume of Master ##
-bindsym --to-code XF86AudioMute exec $onscreen_bar $(amixer sset Master toggle | sed -En '/\[on\]/ s/.*\[([0-9]+)%\].*/\1/ p; /\[off\]/ s/.*/0/p' | head -1)
+bindsym --to-code XF86AudioMute exec $volume_mute
+
+## Action // Mute mic of Master ##
+$bindsym XF86AudioMicMute exec $mic_mute
+
+## Action // play-pause of playerctl ##
+bindsym --to-code XF86AudioPlay exec playerctl play-pause
+
+## Action // stop of playerctl ##
+bindsym --to-code XF86AudioStop exec playerctl stop
+
+## Action // previous of playerctl ##
+bindsym --to-code XF86AudioPrev exec playerctl previous
+
+## Action // next of playerctl ##
+bindsym --to-code XF86AudioNext exec playerctl next
 
 ## Action // Increase brightness ##
-bindsym --to-code XF86MonBrightnessUp exec light -A 5 && $onscreen_bar $(light -G | cut -d'.' -f1)
+bindsym --to-code XF86MonBrightnessUp exec $brightness_up
 
 ## Action // Decrease brightness ##
-bindsym --to-code XF86MonBrightnessDown exec light -U 5 && $onscreen_bar $(light -G | cut -d'.' -f1)
+bindsym --to-code XF86MonBrightnessDown exec $brightness_down
 
 bindsym --to-code XF86PowerOff exec $shutdown
 

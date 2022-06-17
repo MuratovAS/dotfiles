@@ -7,7 +7,7 @@ set $icon-theme Papirus-Dark-Maia
 set $cursor-theme xcursor-breeze
 set $gui-font Roboto 11
 set $term-font RobotoMono Nerd Font 14
-set $kvantum-theme Matchama-Dark-Aliz
+set $kvantum-theme Matcha-Dark-Aliz
 
 # a theme specific color map
 set $base00 #141a1b

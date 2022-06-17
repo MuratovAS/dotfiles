@@ -55,8 +55,22 @@ set $calendar $term_float khal interactive
 #Notification command
 set $notifications mako -c $theme/mako
 
+# brightness control
+set $brightness_step bash -c 'echo $(( $(light -Mr) / 100 * 5 < 1 ? 1 : $(( $(light -Mr) / 100 * 5 )) ))'
+set $brightness_up light -r -A $($brightness_step) && $onscreen_bar $(light -G | cut -d'.' -f1)
+set $brightness_down light -r -U $($brightness_step) && $onscreen_bar $(light -G | cut -d'.' -f1)
+
+# audio control
+set $sink_volume pactl get-sink-volume @DEFAULT_SINK@ | grep '^Volume:' | cut -d / -f 2 | tr -d ' ' | sed 's/%//'
+set $source_volume pactl get-source-volume @DEFAULT_SOURCE@ | grep '^Volume:' | cut -d / -f 2 | tr -d ' ' | sed 's/%//'
+set $volume_down $onscreen_bar $(pactl set-sink-volume @DEFAULT_SINK@ -5% && $sink_volume)
+set $volume_up $onscreen_bar $(pactl set-sink-volume @DEFAULT_SINK@ +5% && $sink_volume)
+set $volume_mute $onscreen_bar $(pactl set-sink-mute @DEFAULT_SINK@ toggle && pactl get-sink-mute @DEFAULT_SINK@ | sed -En "/no/ s/.*/$($sink_volume)/p; /yes/ s/.*/0/p")
+set $mic_mute $onscreen_bar $(pactl set-source-mute @DEFAULT_SOURCE@ toggle && pactl get-source-mute @DEFAULT_SOURCE@ | sed -En "/no/ s/.*/$($source_volume)/p; /yes/ s/.*/0/p")
+
+
 # Your preferred application launcher
-#set $menu wofi --show 'drun,run' -I --exec-search --prompt "Run Command" --term $term 
+#set $menu wofi --show 'drun,run' -I --exec-search --prompt "Run Command" --term $term
 set $menu rofi -no-lazy-grab -show drun -modi drun -theme $rofi_dir/launcher_icon/blurry
 
 # workspace names
@@ -70,6 +84,7 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
- 
+
 # show clipboard history
-bindsym --to-code $mod+Shift+v exec clipman pick --tool="rofi" --tool-args="-theme '$rofi_dir/clipman/style_8'"  --histpath="~/.local/share/clipman.json" ###История буфера обмена 
+# TODO
+bindsym --to-code $mod+Shift+v exec clipman pick --tool="rofi" --tool-args="-theme '$rofi_dir/clipman/style_8'"  --histpath="~/.local/share/clipman.json" ###История буфера обмена

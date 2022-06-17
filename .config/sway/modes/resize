@@ -24,6 +24,6 @@ mode --pango_markup $mode_resize {
     bindsym --to-code Escape mode "default"
 }
 ## Launch // Resize Mode ##
-bindsym --to-code $mod+r mode $mode_resize ;###Изменить размер окон 
+bindsym --to-code $mod+r mode $mode_resize ;###Изменить размер окон
 gaps inner 5px
 gaps outer 5px

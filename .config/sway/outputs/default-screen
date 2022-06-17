@@ -11,3 +11,15 @@ include $theme/definitions
 
 # Default wallpaper
 output * bg $background fill
+
+
+set $twoDisplay HDMI-A-1
+
+
+output $twoDisplay disable
+output $twoDisplay scale 2
+output $twoDisplay adaptive_sync on
+#output $twoDisplay render_bit_depth 10
+
+## Action // toogle HDMI ##
+bindsym --to-code $mod+Shift+d output $twoDisplay toggle ;###Включить/выключить HDMI
