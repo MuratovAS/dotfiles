@@ -1,8 +1,0 @@
-#https://github.com/francma/wob
-WOB_ARGUMENT="\
---border-color #db7b55FF \
---bar-color #db7b55FF \
---background-color #00000070 \
---anchor bottom \
---anchor center \
---margin 40"
