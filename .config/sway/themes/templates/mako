@@ -1,0 +1,24 @@
+# default config for the mako notification daemon
+
+layer=overlay
+text-color=#eeeeee
+font=RobotoMono 14
+
+background-color=#141a1be6
+border-radius=0
+width=400
+height=200
+padding=20
+margin=20
+markup=1
+actions=1
+
+icons=1
+max-icon-size=48
+default-timeout=5000
+
+border-size=0
+
+[urgency=high]
+border-size=2
+border-color=ACCENT_COLOR

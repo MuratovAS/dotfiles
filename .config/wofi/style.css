@@ -1,0 +1,28 @@
+/* import css definitions for current theme */
+@import url("./theme.css");
+
+#outer-box {
+  /*border: 1px solid @accent_color;
+  border-radius: 10px;*/
+}
+
+#input {
+  border: none;
+  border-radius: 0px;
+  margin: 10px;
+}
+
+#img {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+#text {
+  margin-left:1em;	
+}
+
+window {
+  color: @text;
+  border-radius: 0px;
+  opacity: 0.9;
+}

@@ -1,0 +1,30 @@
+set $mode_screenshot "<span foreground='$base0A'>󰄄</span>  \
+<span foreground='$base05'><b>Window</b></span> <span foreground='$base0A'>(<b>W</b>)</span> \
+<span foreground='$base05'><b>Screen</b></span> <span foreground='$base0A'>(<b>S</b>)</span> \
+<span foreground='$base05'><b>Area</b></span> <span foreground='$base0A'>(<b>A</b>)</span> \
+<span foreground='$base05'><b>Save File</b></span> <span foreground='$base0A'>(<b>+Shift</b>)</span>"
+
+set $grimshot $HOME/.config/sway/scripts/grimshot.sh
+
+mode --pango_markup $mode_screenshot {
+
+    bindsym --to-code w exec $grimshot --notify copy window, mode "default"
+    bindsym --to-code Shift+w exec $grimshot --notify save window, mode "default"
+
+    # output = currently active output
+    bindsym --to-code s exec $grimshot --notify copy output, mode "default"
+    bindsym --to-code Shift+s exec $grimshot --notify save output, mode "default"
+    
+    # User can pick the area to screenshot
+    bindsym --to-code a exec $grimshot --notify copy area, mode "default"
+    bindsym --to-code Shift+a exec $grimshot --notify save area, mode "default"
+
+    # Return to default mode.
+    bindsym --to-code Escape mode "default"
+}
+
+## Launch // Screenshot Mode ##
+bindsym --to-code $mod+Shift+s mode $mode_screenshot ;###Снимок экрана 
+
+bindsym --to-code Ctrl+Shift+Print exec $grimshot --notify copy area ;###Быстрый скриншот
+bindsym --to-code Print exec $grimshot --notify save screen

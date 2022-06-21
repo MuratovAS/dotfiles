@@ -1,0 +1,249 @@
+/* =============================================================================
+ *
+ * Waybar configuration
+ *
+ * Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
+ *
+ * =========================================================================== */
+
+/* import css definitions for current theme */
+@import url("theme.css");
+
+/* -----------------------------------------------------------------------------
+ * Keyframes
+ * -------------------------------------------------------------------------- */
+
+@keyframes blink-warning {
+    70% {
+        color: @text;
+    }
+
+    to {
+        color: @text;
+        background-color: @warning
+   ;
+    }
+}
+
+@keyframes blink-critical {
+    70% {
+      color: @text;
+    }
+
+    to {
+        color: @text;
+        background-color: @error
+   ;
+    }
+}
+
+
+/* -----------------------------------------------------------------------------
+ * Base styles
+ * -------------------------------------------------------------------------- */
+
+/* Reset all styles */
+* {
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    font-family: "RobotoMono", sans-serif;
+}
+
+/* The whole bar */
+#waybar {
+    background: @bg;
+    opacity: 0.80;
+    color: @text;
+    font-size: 15px;
+}
+
+/* Each module */
+#custom-pacman,
+#custom-menu,
+#custom-help,
+#custom-scratchpad,
+#custom-sunset,
+#custom-screencast,
+#custom-playerctl,
+#language,
+#bluetooth,
+#battery,
+#clock,
+#cpu,
+#memory,
+#mode,
+#network,
+#pulseaudio,
+#temperature,
+#idle_inhibitor,
+#backlight,
+#tray {
+    background: @bg_dark;
+    padding-left: 9px;
+    padding-right: 9px;
+}
+
+/* -----------------------------------------------------------------------------
+ * user
+ * -------------------------------------------------------------------------- */
+
+#custom-screencast {
+    color: @error;
+}
+
+#custom-playerctl {
+    font-size: 16px;
+}
+
+/* -----------------------------------------------------------------------------
+ * EX
+ * -------------------------------------------------------------------------- */
+
+#custom-right-arrow, #custom-left-arrow {
+    color: @bg_dark;
+    font-size: 26px;
+    opacity: 1;
+}
+
+/* -----------------------------------------------------------------------------
+ * Module styles
+ * -------------------------------------------------------------------------- */
+
+#custom-scratchpad {
+    background-color: @accent;
+}
+
+#battery {
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#battery.warning {
+    color: @warning;
+}
+
+#battery.critical {
+    color: @error;
+}
+
+#battery.warning.discharging {
+    animation-name: blink-warning;
+    animation-duration: 3s;
+}
+
+#battery.critical.discharging {
+    animation-name: blink-critical;
+    animation-duration: 2s;
+}
+
+#clock {
+    font-weight: bold;
+   /* background-color: @accent;*/
+}
+
+#cpu {
+  /* No styles */
+}
+
+#cpu.warning {
+    color: @warning;
+}
+
+#cpu.critical {
+    color: @error;
+}
+
+#custom-menu {
+    background-color: @accent;
+}
+
+#memory {
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#memory.warning {
+    color: @warning;
+}
+
+#memory.critical {
+    color: @error;
+    animation-name: blink-critical;
+    animation-duration: 2s;
+}
+
+#mode {
+    background: @bg;
+}
+
+#network {
+    padding-right: 2px;
+}
+
+#network.disconnected {
+    color: @warning;
+}
+
+#pulseaudio {
+    /* No styles */
+}
+
+#pulseaudio.muted {
+    /* No styles */
+    color: @warning;
+}
+
+#temperature {
+    /* No styles */
+}
+
+#temperature.critical {
+    color: @error;
+}
+
+#tray {
+    /* No styles */
+}
+
+#window {
+    font-weight: bold;
+    margin-right: 25px;
+    color: @accent;
+}
+
+#workspaces button {
+    /* To compensate for the top border and still have vertical centering */
+    padding-bottom: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: @accent;
+    border-top: 2px solid transparent;
+}
+
+#workspaces button.focused {
+    border-color: @accent;
+    color: @text;
+    background-color: @accent;
+}
+
+#workspaces button.urgent {
+    border-color: @error;
+    color: @error;
+}
+
+#custom-pacman {
+    color: @warning;
+}
+
+#bluetooth.disabled {
+    color: @warning;
+}
+
+#custom-help {
+    padding-bottom: 2px;
+}

@@ -1,0 +1,55 @@
+### Variables
+
+set $theme $HOME/.config/sway/themes/matcha-green
+set $background $HOME/.config/sway/background/1.png
+
+# Logo key. Use Mod1 for Alt and Mod4 for Super.
+set $mod Mod1
+
+# Your preferred terminal emulator
+set $term foot
+set $term_client footclient
+set $term_float $term_client -a floating_shell
+set $term_float_portrait $term_client -a floating_shell_portrait
+
+### Lockscreen configuration
+#
+set $locking swaylock --daemonize --config $HOME/.config/swaylock/swaylock
+
+### Idle configuration
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+#
+set $idle swayidle -w \
+    timeout 60 'light -G > /tmp/brightness && light -S 10' resume 'light -S $([ -f /tmp/brightness ] && cat /tmp/brightness || echo 100%)' \
+    timeout 300 'exec $locking' \
+    timeout 600 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"' \
+    before-sleep 'exec $locking'
+
+# brightness control
+set $brightness_step bash -c 'echo $(( $(light -Mr) / 100 * 5 < 1 ? 1 : $(( $(light -Mr) / 100 * 5 )) ))'
+set $brightness_up light -r -A $($brightness_step)
+set $brightness_down light -r -U $($brightness_step)
+
+# audio control
+set $pulsemixer $term_float pulsemixer
+set $volume_down pamixer -d 1
+set $volume_up pamixer -i 1
+set $volume_mute pamixer -t
+set $mic_mute pamixer -t --default-source
+
+### Bar configuration
+bar {
+    id default
+    swaybar_command waybar
+    position top
+}
+
+#Notification command
+set $notifications mako -c $HOME/.config/mako/mako
+
+## Launch // Launcher ##
+set $menu pkill wofi || wofi --show "drun" -I --exec-search --prompt "Run Command" 
+set $fm $term_client mc

@@ -1,0 +1,30 @@
+set $mode_recording "<span foreground='$base0A'>󰃽</span>  \
+<span foreground='$base05'><b>Screen</b></span> <span foreground='$base0A'>(<b>W</b>)</span> \
+<span foreground='$base01'>—</span>\
+<span foreground='$base05'><b>Region</b></span> <span foreground='$base0A'>(<b>R</b>)</span> \
+<span foreground='$base05'><b>Region(GIF)</b></span> <span foreground='$base0A'>(<b>G</b>)</span> \
+<span foreground='$base01'>—</span>"
+
+mode --pango_markup $mode_recording {
+    bindsym --to-code w exec killall -s SIGINT wf-recorder, exec pkill -RTMIN+8 waybar && \
+    		wf-recorder --audio=0 \
+    		-o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') \
+            -f $(xdg-user-dir VIDEOS)/recording-$(date +'%Y-%m-%d-%H%M%S').mp4, \
+             mode "default"
+			
+    bindsym --to-code r exec killall -s SIGINT wf-recorder, exec area=$(slurp -d) && pkill -RTMIN+8 waybar && \
+    		wf-recorder --audio=0 -g "$area" \
+            -f $(xdg-user-dir VIDEOS)/recording-$(date +'%Y-%m-%d-%H%M%S').mp4, \
+             mode "default"
+            
+	bindsym --to-code g exec killall -s SIGINT wf-recorder, exec area=$(slurp -d) && pkill -RTMIN+8 waybar && \
+			wf-recorder -g "$area" \
+            -f $(xdg-user-dir VIDEOS)/recording-$(date +'%Y-%m-%d-%H%M%S').gif -c gif, \
+             mode "default"
+
+    # Return to default mode.
+    bindsym --to-code Escape mode "default"
+}
+
+## Launch // Recording Mode ##
+bindsym --to-code $mod+Shift+r mode $mode_recording ;###Запись экрана
