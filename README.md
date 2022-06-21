@@ -142,11 +142,11 @@ Include = /etc/pacman.d/mirrorlist-arch\n\
 \n\
 # Artix\n\
 [universe]\n\
-Server = https://universe.artixlinux.org/$arch\n\
-Server = https://mirror1.artixlinux.org/universe/$arch\n\
-Server = https://mirror.pascalpuffke.de/artix-universe/$arch\n\
-Server = https://artixlinux.qontinuum.space:4443/artixlinux/universe/os/$arch\n\
-Server = https://mirror1.cl.netactuate.com/artix/universe/$arch\n\
+Server = https://universe.artixlinux.org/\$arch\n\
+Server = https://mirror1.artixlinux.org/universe/\$arch\n\
+Server = https://mirror.pascalpuffke.de/artix-universe/\$arch\n\
+Server = https://artixlinux.qontinuum.space:4443/artixlinux/universe/os/\$arch\n\
+Server = https://mirror1.cl.netactuate.com/artix/universe/\$arch\n\
 Server = https://ftp.crifo.org/artix-universe/\n\
 " >> /etc/pacman.conf
 ```
