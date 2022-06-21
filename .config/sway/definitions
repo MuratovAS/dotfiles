@@ -22,11 +22,11 @@ set $locking swaylock --daemonize --config $HOME/.config/swaylock/swaylock
 # resumed. It will also lock your screen before your computer goes to sleep.
 #
 set $idle swayidle -w \
-    timeout 60 'light -G > /tmp/brightness && light -S 10' resume 'light -S $([ -f /tmp/brightness ] && cat /tmp/brightness || echo 100%)' \
-    timeout 300 'exec $locking' \
-    timeout 600 'swaymsg "output * dpms off"' \
-    resume 'swaymsg "output * dpms on"' \
-    before-sleep 'exec $locking'
+	timeout 60 'light -G > /tmp/brightness && light -S 10' resume 'light -S $([ -f /tmp/brightness ] && cat /tmp/brightness || echo 100%)' \
+	timeout 300 'exec $locking' \
+	timeout 600 'swaymsg "output * dpms off"' \
+	resume 'swaymsg "output * dpms on"' \
+	before-sleep 'exec $locking'
 
 # brightness control
 set $brightness_step bash -c 'echo $(( $(light -Mr) / 100 * 5 < 1 ? 1 : $(( $(light -Mr) / 100 * 5 )) ))'
@@ -42,9 +42,9 @@ set $mic_mute pamixer -t --default-source
 
 ### Bar configuration
 bar {
-    id default
-    swaybar_command waybar
-    position top
+	id default
+	swaybar_command waybar
+	position top
 }
 
 #Notification command

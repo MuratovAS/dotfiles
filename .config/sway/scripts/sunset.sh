@@ -16,9 +16,9 @@ function start(){
 	then
 		CONTENT=$(curl -s https://freegeoip.app/json/)
 		content_longitude=$(echo $CONTENT | jq '.longitude // empty')
-        longitude=${content_longitude:-"${longitude}"}
-        content_latitude=$(echo $CONTENT | jq '.latitude // empty')
-        latitude=${content_latitude:-"${latitude}"}
+		longitude=${content_longitude:-"${longitude}"}
+		content_latitude=$(echo $CONTENT | jq '.latitude // empty')
+		latitude=${content_latitude:-"${latitude}"}
 		wlsunset -l $latitude -L $longitude -t $temp_low -T $temp_high -d $duration &
 	else
 		wlsunset -t $temp_low -T $temp_high -d $duration -S $sunrise -s $sunset &
@@ -30,11 +30,9 @@ case $1'' in
 	'off')
    	pkill wlsunset
 	;;
-
 	'on')
 	start
 	;;
-
 	'toggle')
    	if pkill -0 wlsunset
 	then
@@ -42,11 +40,11 @@ case $1'' in
 	else
 		start
 	fi
-    ;;
-    'check')
-    command -v wlsunset
-    exit $?
-    ;;
+	;;
+	'check')
+	command -v wlsunset
+	exit $?
+	;;
 esac
 
 #Returns a string for Waybar 

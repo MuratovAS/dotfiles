@@ -3,13 +3,13 @@ tooltip=$(swaymsg -r -t get_tree | jq -r 'recurse(.nodes[]) | first(select(.name
 count=$(echo -n "$tooltip" | grep -c '^')
 
 if [[ "$count" -eq 0 ]]; then
-  exit 1
+	exit 1
 elif [[ "$count" -eq 1 ]]; then
-  class="one"
+	class="one"
 elif [[ "$count" -gt 1 ]]; then
-  class="many"
+	class="many"
 else
-  class="unknown"
+	class="unknown"
 fi
 
 printf '{"text":"%s", "class":"%s", "alt":"%s", "tooltip":"%s"}\n' "$count" "$class" "$class" "${tooltip//$'\n'/'\n'}"

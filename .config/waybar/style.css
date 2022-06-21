@@ -14,27 +14,27 @@
  * -------------------------------------------------------------------------- */
 
 @keyframes blink-warning {
-    70% {
-        color: @text;
-    }
+	70% {
+		color: @text;
+	}
 
-    to {
-        color: @text;
-        background-color: @warning
+	to {
+		color: @text;
+		background-color: @warning
    ;
-    }
+	}
 }
 
 @keyframes blink-critical {
-    70% {
-      color: @text;
-    }
+	70% {
+	  color: @text;
+	}
 
-    to {
-        color: @text;
-        background-color: @error
+	to {
+		color: @text;
+		background-color: @error
    ;
-    }
+	}
 }
 
 
@@ -44,20 +44,20 @@
 
 /* Reset all styles */
 * {
-    border: none;
-    border-radius: 0;
-    min-height: 0;
-    margin: 0;
-    padding: 0;
-    font-family: "RobotoMono", sans-serif;
+	border: none;
+	border-radius: 0;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	font-family: "RobotoMono", sans-serif;
 }
 
 /* The whole bar */
 #waybar {
-    background: @bg;
-    opacity: 0.80;
-    color: @text;
-    font-size: 15px;
+	background: @bg;
+	opacity: 0.80;
+	color: @text;
+	font-size: 15px;
 }
 
 /* Each module */
@@ -81,9 +81,9 @@
 #idle_inhibitor,
 #backlight,
 #tray {
-    background: @bg_dark;
-    padding-left: 9px;
-    padding-right: 9px;
+	background: @bg_dark;
+	padding-left: 9px;
+	padding-right: 9px;
 }
 
 /* -----------------------------------------------------------------------------
@@ -91,11 +91,11 @@
  * -------------------------------------------------------------------------- */
 
 #custom-screencast {
-    color: @error;
+	color: @error;
 }
 
 #custom-playerctl {
-    font-size: 16px;
+	font-size: 16px;
 }
 
 /* -----------------------------------------------------------------------------
@@ -103,9 +103,9 @@
  * -------------------------------------------------------------------------- */
 
 #custom-right-arrow, #custom-left-arrow {
-    color: @bg_dark;
-    font-size: 26px;
-    opacity: 1;
+	color: @bg_dark;
+	font-size: 26px;
+	opacity: 1;
 }
 
 /* -----------------------------------------------------------------------------
@@ -113,35 +113,35 @@
  * -------------------------------------------------------------------------- */
 
 #custom-scratchpad {
-    background-color: @accent;
+	background-color: @accent;
 }
 
 #battery {
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
 }
 
 #battery.warning {
-    color: @warning;
+	color: @warning;
 }
 
 #battery.critical {
-    color: @error;
+	color: @error;
 }
 
 #battery.warning.discharging {
-    animation-name: blink-warning;
-    animation-duration: 3s;
+	animation-name: blink-warning;
+	animation-duration: 3s;
 }
 
 #battery.critical.discharging {
-    animation-name: blink-critical;
-    animation-duration: 2s;
+	animation-name: blink-critical;
+	animation-duration: 2s;
 }
 
 #clock {
-    font-weight: bold;
+	font-weight: bold;
    /* background-color: @accent;*/
 }
 
@@ -150,100 +150,100 @@
 }
 
 #cpu.warning {
-    color: @warning;
+	color: @warning;
 }
 
 #cpu.critical {
-    color: @error;
+	color: @error;
 }
 
 #custom-menu {
-    background-color: @accent;
+	background-color: @accent;
 }
 
 #memory {
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
 }
 
 #memory.warning {
-    color: @warning;
+	color: @warning;
 }
 
 #memory.critical {
-    color: @error;
-    animation-name: blink-critical;
-    animation-duration: 2s;
+	color: @error;
+	animation-name: blink-critical;
+	animation-duration: 2s;
 }
 
 #mode {
-    background: @bg;
+	background: @bg;
 }
 
 #network {
-    padding-right: 2px;
+	padding-right: 2px;
 }
 
 #network.disconnected {
-    color: @warning;
+	color: @warning;
 }
 
 #pulseaudio {
-    /* No styles */
+	/* No styles */
 }
 
 #pulseaudio.muted {
-    /* No styles */
-    color: @warning;
+	/* No styles */
+	color: @warning;
 }
 
 #temperature {
-    /* No styles */
+	/* No styles */
 }
 
 #temperature.critical {
-    color: @error;
+	color: @error;
 }
 
 #tray {
-    /* No styles */
+	/* No styles */
 }
 
 #window {
-    font-weight: bold;
-    margin-right: 25px;
-    color: @accent;
+	font-weight: bold;
+	margin-right: 25px;
+	color: @accent;
 }
 
 #workspaces button {
-    /* To compensate for the top border and still have vertical centering */
-    padding-bottom: 2px;
-    padding-left: 5px;
-    padding-right: 5px;
-    color: @accent;
-    border-top: 2px solid transparent;
+	/* To compensate for the top border and still have vertical centering */
+	padding-bottom: 2px;
+	padding-left: 5px;
+	padding-right: 5px;
+	color: @accent;
+	border-top: 2px solid transparent;
 }
 
 #workspaces button.focused {
-    border-color: @accent;
-    color: @text;
-    background-color: @accent;
+	border-color: @accent;
+	color: @text;
+	background-color: @accent;
 }
 
 #workspaces button.urgent {
-    border-color: @error;
-    color: @error;
+	border-color: @error;
+	color: @error;
 }
 
 #custom-pacman {
-    color: @warning;
+	color: @warning;
 }
 
 #bluetooth.disabled {
-    color: @warning;
+	color: @warning;
 }
 
 #custom-help {
-    padding-bottom: 2px;
+	padding-bottom: 2px;
 }
