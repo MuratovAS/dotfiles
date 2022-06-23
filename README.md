@@ -414,7 +414,6 @@ sudo pacman -S pamac
 sudo pacman -S gnome-disk-utility
 sudo pacman -S nautilus
 sudo pacman -S file-roller
-yay -S timeshift
 ```
 
 Полезные TUI приложения
