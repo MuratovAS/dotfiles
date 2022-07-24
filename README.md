@@ -34,23 +34,71 @@ cfdisk /dev/sda
 Форматируем разделы, создаем файл подкачки
 ```bash
 mkfs.vfat /dev/sda1
-mkfs.btrfs /dev/sda2
 
 mkswap /dev/sda3 -L "swap" 
 swapon /dev/sda3
-```
 
-Могут возникнуть проблемы с монтированием `btrfs`, для этого необходимо установить пакет
-```bash
-pacman -Syu btrfs-progs
+mkfs.btrfs /dev/sda2
+mount /dev/sda2 /mnt
+cd /mnt
+btrfs subvolume create _active
+btrfs subvolume create _active/rootvol
+btrfs subvolume create _active/homevol
+#btrfs subvolume create _active/docker
+btrfs subvolume create _snapshots
 ```
 
 Монтируем рабочие разделы
 ```bash
-mount /dev/sda2 /mnt 
-mkdir -p /mnt/boot/EFI
-mount /dev/sda1 /mnt/boot/EFI
+cd ..
+umount /mnt
+mount -o subvol=_active/rootvol /dev/sda2 /mnt
+mkdir /mnt/{home,boot,var}
+mkdir /mnt/boot/efi
+#mkdir /mnt/var/lib/docker
+mkdir /mnt/mnt/defvol
+mount /dev/sda1 /mnt/boot/efi
+#mount -o subvol=_active/docker /dev/sda2 /mnt/var/lib/docker
+mount -o subvol=_active/homevol /dev/sda2 /mnt/home
+mount -o subvol=/ /dev/sda2 /mnt/mnt/defvol
 ```
+
+<details>
+<summary>Альтернативная разметка</summary>
+Данная разметка должна поддерживаться timeshift. Не проверял.
+
+Форматируем разделы, создаем файл подкачки
+```bash
+mkfs.vfat /dev/sda1
+
+mkswap /dev/sda3 -L "swap" 
+swapon /dev/sda3
+
+mkfs.btrfs /dev/sda2
+mount /dev/sda2 /mnt
+cd /mnt
+btrfs subvolume create @
+btrfs subvolume create @home
+btrfs subvolume create @log
+btrfs subvolume create @cache
+```
+
+Монтируем рабочие разделы
+```bash
+cd ..
+umount /mnt
+mount -o subvol=@ /dev/sda2 /mnt
+mkdir /mnt/{home,boot,var}
+mkdir /mnt/boot/efi
+mkdir /mnt/var/cache
+mkdir /mnt/var/log
+mount /dev/sda1 /mnt/boot/efi
+mount -o subvol=/@ /dev/sda2 /mnt/
+mount -o subvol=/@home /dev/sda2 /mnt/home
+mount -o subvol=/@log /dev/sda2 /mnt/var/log
+mount -o subvol=/@cache /dev/sda2 /mnt/var/cache
+```
+</details>
 
 ## Установка базовой системы
 
@@ -59,13 +107,15 @@ mount /dev/sda1 /mnt/boot/EFI
 В зависимости от архитектуры целевой машины выберите `ucode`.
 ```bash
 basestrap /mnt base base-devel openrc 
+# elogind-openrc polkit polkit-qt5 polkit-gnome
+# seatd-openrc #NOT support polkit
 basestrap /mnt btrfs-progs linux-lts linux-lts-headers linux-firmware
 
-basestrap /mnt intel-ucode iucode-tool
-#basestrap /mnt amd-ucode iucode-tool
+#basestrap /mnt intel-ucode iucode-tool
+basestrap /mnt amd-ucode iucode-tool
 
-basestrap /mnt elogind elogind-openrc polkit-elogind
-#basestrap /mnt seatd seatd-openrc #NOT support polkit
+basestrap /mnt vulkan-radeon radeontop
+
 ```
 
 Создание файла с информацией о разделах
@@ -83,13 +133,13 @@ artix-chroot /mnt
 Конфигурация часового пояса.
 В данном примере `hwclock` позволит установить время по аппаратным часам
 ```bash
-ln -sf /usr/share/zoneinfo/Asia/ГОРОД /etc/localtime
+ln -sf /usr/share/zoneinfo/Asia/ГОРОД /etc/timezone
 hwclock --systohc
 ```
 
 Установим базовое ПО (необязательно)
 ```bash
-pacman -S nano htop mc
+pacman -S nano htop
 ```
 
 Установим пакеты для управления сетевым соединением
@@ -99,7 +149,7 @@ pacman -S dhcpcd dhclient networkmanager networkmanager-openrc
 
 Настройка языковых пакетов
 ```bash
-sed '/en_US\.UTF-8/s/^#//' -i /etc/locale.gen
+#sed '/en_US\.UTF-8/s/^#//' -i /etc/locale.gen
 sed '/ru_RU\.UTF-8/s/^#//' -i /etc/locale.gen
 echo "LANG=ru_RU.UTF-8" > /etc/locale.conf
 locale-gen
@@ -109,7 +159,7 @@ locale-gen
 ```bash
 pacman -S terminus-font
 echo -e '\nconsolefont="ter-v20b"' > /etc/conf.d/consolefont
-rc-update add consolefont boot
+#sudo rc-update add consolefont boot
 ```
 
 Определение сетевого имени машины
@@ -122,45 +172,34 @@ echo "127.0.1.1 ИМЯХОСТА.localdomine ИМЯХОСТА" >> /etc/hosts
 
 ## Настройка репозиториев
 
+Пропишешь в конфигурации `pacman` новые репозитории. Добавить в /etc/pacman.conf
+```bash
+# Artix
+[universe]
+Server = https://universe.artixlinux.org/\$arch
+Server = https://mirror1.artixlinux.org/universe/\$arch
+Server = https://mirror.pascalpuffke.de/artix-universe/\$arch
+Server = https://artixlinux.qontinuum.space:4443/artixlinux/universe/os/\$arch
+Server = https://mirror1.cl.netactuate.com/artix/universe/\$arch
+Server = https://ftp.crifo.org/artix-universe/
+```
+
 Установим поддержку `ArchLinux` репозиториев и AUR.
 ```bash
 pacman -S artix-archlinux-support yay
 ```
 
-Пропишешь в конфигурации `pacman` новые репозитории
+Пропишешь в конфигурации `pacman` новые репозитории. Добавить в /etc/pacman.conf
 ```bash
-echo "\n\
-# Arch\n\
-[extra]\n\
-Include = /etc/pacman.d/mirrorlist-arch\n\
-\n\
-[community]\n\
-Include = /etc/pacman.d/mirrorlist-arch\n\
-\n\
-[multilib]\n\
-Include = /etc/pacman.d/mirrorlist-arch\n\
-\n\
-# Artix\n\
-[universe]\n\
-Server = https://universe.artixlinux.org/\$arch\n\
-Server = https://mirror1.artixlinux.org/universe/\$arch\n\
-Server = https://mirror.pascalpuffke.de/artix-universe/\$arch\n\
-Server = https://artixlinux.qontinuum.space:4443/artixlinux/universe/os/\$arch\n\
-Server = https://mirror1.cl.netactuate.com/artix/universe/\$arch\n\
-Server = https://ftp.crifo.org/artix-universe/\n\
-" >> /etc/pacman.conf
-```
+# Arch
+[extra]
+Include = /etc/pacman.d/mirrorlist-arch
 
-Вот теперь нам понадобятся файлы из `xfce` редакции. Необходимо выйти из `chroot`.
-```bash
-exit
-cp -r /etc/pacman.d/mirrorlist-arch /mnt/etc/pacman.d/mirrorlist-arch
-```
+[community]
+Include = /etc/pacman.d/mirrorlist-arch
 
-Вернемся в окружение устанавливаемой системы
-```bash
-artix-chroot /mnt
-
+[multilib]
+Include = /etc/pacman.d/mirrorlist-arch
 ```
 
 Обновим репозитории
@@ -180,24 +219,18 @@ pacman -Syyu
 
 ```bash
 mkinitcpio -p linux-lts
-pacman -S grub os-prober efibootmgr
-grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=grub  --removable
+pacman -S grub os-prober efibootmgr grub-btrf
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=grub  --removable
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-
-### Hibernation
-
-1. A swap partition, say `/dev/sda...`
-2. Add `resume` to HOOKS in `/etc/mkinitcpio.conf`
-3. Add `resume=/dev/sda...SWAP` to GRUB_CMDLINE_LINUX in `/etc/default/grub`
-4. Re-create initrd and grub.cfg: `grub-mkconfig -o /boot/grub/grub.cfg && mkinitcpio -p linux-lts`
-
-Example:
-```text
-GRUB_CMDLINE_LINUX_DEFAULT="apparmor=1 security=apparmor resume=UUID=e862ad16-1d9d-4dde-9a21-50bc7ade0ea2 udev.log_priority=3 quiet"
+Установка темы
+```bash
+git clone https://github.com/vinceliuice/grub2-themes.git
+cd grub2-themes
+sudo ./install.sh -b -t tela -i white -s 1080p
+cd .. && rm -rf grub2-themes
 ```
-Вам потребуется `UUID` его можно подсмотреть в `/etc/fstab` для вашего `swap`
 
 ## Настройка пользователя
 
@@ -215,9 +248,22 @@ passwd ИМЯ
 Отключаем пароль sudo для `wheel`. А так же отключи запрос пароля для `openrc-shutdown` это позволит управлять питанием из WM
 ```bash
 sed '/%wheel ALL=(ALL:ALL) ALL/s/^#//' -i /etc/sudoers
-echo -e '## Same thing without a password\n%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/openrc-shutdown' >> /etc/profile
-#echo -e '%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/VBoxService' >> /etc/profile
+echo -e '## Same thing without a password\n%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/openrc-shutdown' >> /etc/sudoers
+#echo -e '%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/VBoxService' >> /etc/sudoers
 ```
+
+### Hibernation
+
+1. A swap partition, say `/dev/sda...`
+2. Add `resume` to HOOKS in `/etc/mkinitcpio.conf`
+3. Add `resume=/dev/sda... SWAP` to GRUB_CMDLINE_LINUX in `/etc/default/grub`
+4. Re-create initrd and grub.cfg: `grub-mkconfig -o /boot/grub/grub.cfg && mkinitcpio -p linux-lts`
+
+Example:
+```text
+GRUB_CMDLINE_LINUX_DEFAULT="apparmor=1 security=apparmor resume=UUID=e862ad16-1d9d-4dde-9a21-50bc7ade0ea2 udev.log_priority=3 quiet"
+```
+Вам потребуется `UUID` его можно подсмотреть в `/etc/fstab` для вашего `swap`
 
 ## Завершение установки базового образа
 
@@ -232,12 +278,17 @@ reboot
 
 Запустим сервис обеспечивающий авторизацию в системе
 ```bash
+#elogind
 sudo rc-update add elogind
 sudo rc-service elogind start
+
+#нужен для упровления подсветкой
+sudo usermod -aG video ИМЯ
+
+#seatd
 #sudo rc-update add seatd
 #sudo rc-service seatd start
 #sudo usermod -aG seat ИМЯ
-#sudo usermod -aG video ИМЯ
 ```
 
 Пропишем в системный `enviroment` выбранный в прошлом пункте LM
@@ -263,7 +314,7 @@ sudo yay -S swaylock-effects-git
 
 Для функционирования и настройки WM нам потребуются
 ```bash
-sudo pacman -S htop curl jq
+sudo pacman -S curl jq git
 ```
 
 Далее необходимо произвести распаковку ваших или моих `dotfiles` в домашнюю папку пользователя.
@@ -276,14 +327,14 @@ cp -r dotfiles/* ~/ && rm -rf ~/.git ~/design
 Установим утилиты `xdg`, это позволит обеспечить ассоциацию файлов и добавить поддержку ярлыков. Пакет `xdg-user-dirs` необходим некоторым приложениям для доступа к стандартным каталогом. От него можно отказаться, вручную создав каталоги.
 ```bash
 sudo pacman -S xdg-utils xdg-user-dirs
-mkdir ~/Share ~/Download ~/Documents ~/Media
+mkdir ~/Share ~/Download ~/Documents ~/Media ~/Templates
 xdg-user-dirs-update --set DESKTOP ~/Media
 xdg-user-dirs-update --set DOCUMENTS ~/Documents
 xdg-user-dirs-update --set DOWNLOAD ~/Download
 xdg-user-dirs-update --set MUSIC ~/Media
 xdg-user-dirs-update --set PICTURES ~/Media
 xdg-user-dirs-update --set PUBLICSHARE ~/Share
-xdg-user-dirs-update --set TEMPLATES ~/Media
+xdg-user-dirs-update --set TEMPLATES ~/Templates
 xdg-user-dirs-update --set VIDEOS ~/Media
 ```
 
@@ -311,8 +362,8 @@ sudo pacman -S xdg-desktop-portal xdg-desktop-portal-wlr
 ## Шрифты
 
 ```bash
-sudo pacman -S wqy-microhei ttf-nerd-font-symbols ttf-carlito ttf-caladea ttf-liberation ttf-roboto ttf-roboto-mono
-yay -S ttf-material-design-icons-webfont
+sudo pacman -S ttf-nerd-fonts-symbols wqy-microhei ttf-carlito ttf-caladea ttf-liberation ttf-roboto ttf-roboto-mono
+yay -S ttf-material-design-icons-webfont 
 ```
 Обновление кэша шрифтов
 ```bash
@@ -324,13 +375,16 @@ fc-list
 
 ```bash
 sudo pacman -S light            # Управляет подсветкой
-sudo sudo pacman -S poweralertd # Уведомляет о состоянии питания
-
+yay -S poweralertd              # Уведомляет о состоянии питания
 sudo pacman -S tlp tlp-openrc   # менеджер питания
 sudo rc-service tlp restart
 sudo rc-update add tlp 
 
-#sudo pacman -S blueberry       # GUI bluetooth скорее всего нужно еще какой то демон запустить
+sudo pacman -S bluez blueberry  # GUI bluetooth
+sudo usermod -aG rfkill ИМЯ
+sudo usermod -aG lp ИМЯ
+sudo rc-service bluetoothd restart
+sudo rc-update add bluetoothd
 ```
 
 ### Синхронизация времени и даты
@@ -344,9 +398,9 @@ sudo rc-update add chrony
 
 По необходимости можно добавить свой сервер и проверить работоспособность
 ```bash
-echo "server 192.168.10.10 iburst" >> /etc/chrony.conf
-sudo chronyc tracking
-sudo chronyc sources
+echo "server 192.168.10.1 iburst" >> /etc/chrony.conf
+chronyc tracking
+chronyc sources
 ```
 
 ## Дополнительные пакеты
@@ -368,12 +422,14 @@ khal configure
 ```bash
 sudo pacman -S qt5-wayland
 sudo pacman -S qt5ct kvantum xcursor-breeze
-yay -S gtk3-nocsd matcha-gtk-theme kvantum-theme-matcha
+yay -S gtk3-nocsd matcha-gtk-theme kvantum-theme-matcha # (НЕ kvantum-theme-matcha-git)
 ```
 
 Возможно вы будите использовать приложения на основе `electron`. Большинство приложений по умолчанию работают через `xwayland`, что не очень правильно. Так же это ограничивает разрешения изображения, и на HiDPI мониторе будет выглядеть печально. Данную проблему можно исправить файлом конфигурации, принудительно запускающий `wayland` версию приложения. В некоторых случаях требуется вручную создать файл для вашей версии `electron`.
 ```bash
-ln -s ~/.config/electron-flags.conf ~/.config/electronXX-flags.conf
+ln -s ~/.config/electron-flags.conf ~/.config/electron12-flags.conf
+ln -s ~/.config/electron-flags.conf ~/.config/electron13-flags.conf
+ln -s ~/.config/electron-flags.conf ~/.config/electron18-flags.conf
 ```
 
 ## ZSH как альтернатива BASH
@@ -386,11 +442,6 @@ chsh -s $(which zsh)
 
 Настройка `zsh` (выполнять не требуется, если скопировали мой dotfiles)
 ```bash
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-```
-```bash
 mv ~/.oh-my-zsh ~/.config/oh-my-zsh
 sed -i 's@\.oh-my-zsh@\.config/oh-my-zsh@g' ~/.zshrc
 sed -i 's@plugins=(git)@plugins=(git zsh-autosuggestions zsh-syntax-highlighting)@g' ~/.zshrc
@@ -399,9 +450,15 @@ sed -i '/mode disabled/s/^#//' ~/.zshrc
 sed -i '/ prompt_context/s/^/#\ /' ~/.config/oh-my-zsh/themes/agnoster.zsh-theme
 ```
 
+```bash
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-.config/oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-.config/oh-my-zsh/custom}/plugins/zsh-autosuggestions
+```
+
 ## Поддержка appimage
 
-По моим предположениям AppImage должен работать из коробки, но встречаются случае когда приложение не запускается. У меня решилась проблема установкой недостающих компонентов `fuse`.
+По моим предположениям AppImage должен работать из коробки, но встречаются случаи когда приложение не запускается. У меня решилась проблема установкой недостающих компонентов `fuse`.
 ```bash
 sudo pacman -S fuse-common fuse3 fuse2
 ```
@@ -414,12 +471,12 @@ sudo pacman -S pamac
 sudo pacman -S gnome-disk-utility
 sudo pacman -S nautilus
 sudo pacman -S file-roller
+yay -S buttermanager
 ```
 
 Полезные TUI приложения
 ```bash
-sudo pacman -S micro 
-sudo pacman -S mc
+sudo pacman -S micro mc
 ```
 
 Набор приложений для просмотра медиа файлов
@@ -437,7 +494,8 @@ sudo pacman -S gvfs-mtp exfat-utils
 
 Весьма специфичное ПО. В мой конфигурации используется файловый менеджер lf, с возможностью предпросмотр текстовых файлов. Устанавливается так:
 ```bash
-sudo pacman -S lf bat glow chafa
+sudo pacman -S bat glow chafa
+yay -S lf-bin
 ```
 
 ## Что насчет принтера
@@ -449,20 +507,85 @@ sudo rc-service cupsd restart
 sudo rc-update add cupsd 
 ```
 
-К сожалению в зависимостях `cups` есть `avahi`, данный сервис позволяет искать устройства в локальной сети, в том числе принтеры. Раз он у нас уже установлен, можно его запустить :)
-```bash
-#sudo rc-service avahi-daemon restart
-#sudo rc-update add avahi-daemon
-```
-
 Так же распространённый компонент `avahi` это `mdns`, вроде бы он используется при подключении к публичным Wifi. Я все же не рекомендую его ставить, это может снижать безопасность системы.
 ```bash
 #sudo pacman -S nss-mdns
 ```
+
+В случае проблем с доступом к домену *.local, необходимо убрать `[NOTFOUND=return]` в `/etc/nsswitch.conf `
+
 
 ## Заметки
 
 В процессе вы будите устанавливать приложения не совместимые с `OpenRC`, вам придется написать свои конфигурации для системы инициализации. В качестве примера можно использовать конфигурации `systemd`. Найти их можно тут:
 ```text
 /usr/lib/systemd/
+```
+
+### Проброс настроек пользователя в root
+
+```bash
+rm -r /root/.config/mc
+ln -s /home/muratovas/.config/mc /root/.config/mc
+
+rm -r /root/.config/micro
+ln -s /home/muratovas/.config/micro /root/.config/micro
+```
+
+### Запуск терминальных программ через wofi
+
+По умолчанию wofi не умеет запускать терминальные приложения, модифицируем .desktop ака. ярлыки
+```bash
+#cp  /usr/share/applications/NAME.desktop ~/.local/share/applications
+micro ~/.local/share/applications/NAME.desktop
+```
+
+Необходимо удалить строку, а так же изменить существующую
+```bash
+Exec=kitty NAME
+;Terminal=true
+```
+
+### Running GUI applications as root
+
+A more versatile —though much less secure— workaround is to use xhost to temporarily allow the root user to access the local user's X session[5]. To do so, execute the following command as the current (unprivileged) user: 
+
+```bash
+xhost si:localuser:root
+```
+To remove this access after the application has been closed: 
+
+```bash
+xhost -si:localuser:root
+```
+
+### Software
+
+```bash
+librewolf
+gnome-calculator
+libreoffice
+evince
+drawing
+audacious
+gnome-disk-utility
+#gnome-logs
+#seahorse
+
+nextcloud
+kdeconnect-indicator
+Telegram Desktop
+
+kicad
+gittyup
+
+#vdirsyncer
+#wayvnc
+#Tor
+#Solaar
+#kdiskmark
+#remmine
+#krita
+#VS Code
+#darktable
 ```

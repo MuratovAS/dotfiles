@@ -133,7 +133,7 @@ bindsym --to-code $mod+Shift+f fullscreen ;###Окно на весь экран
 bindsym --to-code $mod+insert floating toggle ;###Плавающее окно
 
 ## Navigation // Swap focus between the tiling area and the floating area ##
-bindsym --to-code ctrl+space focus mode_toggle ;###Поменять фокус
+bindsym --to-code Ctrl+Space focus mode_toggle ;###Поменять фокус
 
 ## Navigation // Swap focus to the parent window ##
 bindsym --to-code $mod+a focus parent ;###Поменять фокус на родительское окно

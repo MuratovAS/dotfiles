@@ -4,7 +4,7 @@ set $theme $HOME/.config/sway/themes/matcha-green
 set $background $HOME/.config/sway/background/1.png
 
 # Logo key. Use Mod1 for Alt and Mod4 for Super.
-set $mod Mod1
+set $mod Mod4
 
 # Your preferred terminal emulator
 set $term foot
@@ -23,8 +23,8 @@ set $locking swaylock --daemonize --config $HOME/.config/swaylock/swaylock
 #
 set $idle swayidle -w \
 	timeout 60 'light -G > /tmp/brightness && light -S 10' resume 'light -S $([ -f /tmp/brightness ] && cat /tmp/brightness || echo 100%)' \
-	timeout 300 'exec $locking' \
-	timeout 600 'swaymsg "output * dpms off"' \
+	timeout 120 'swaymsg "output * dpms off"' \
+	timeout 240 'exec $locking' \
 	resume 'swaymsg "output * dpms on"' \
 	before-sleep 'exec $locking'
 
@@ -52,4 +52,4 @@ set $notifications mako -c $HOME/.config/mako/mako
 
 ## Launch // Launcher ##
 set $menu pkill wofi || wofi --show "drun" -I --exec-search --prompt "Run Command" 
-set $fm $term_client mc
+set $fm $term_client lf

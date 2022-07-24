@@ -31,6 +31,7 @@
 		"custom/screencast",
 		"custom/playerctl",
 		"network",
+		"bluetooth",
 		"temperature",
 		"cpu",
 		"memory",
@@ -40,7 +41,6 @@
 		"custom/pacman",
 		"sway/language",
 		"custom/help",
-		//"bluetooth",
 		//"upower",
 		"custom/sunset",
 		"idle_inhibitor",
@@ -176,10 +176,12 @@
 	},
 
 	"network": {
+		"interface": "eth0",
 		"min-length": 4,
 		"interval": 5,
+		"format": "{ifname}",
 		"format-wifi": "󰖩  {essid} ({signalStrength}%)", // Icon: wifi
-		"format-ethernet": "󰈀  {ifname}", // Icon: ethernet
+		"format-ethernet": "󰈀 {ifname}", // Icon: ethernet
 		"format-disconnected": "󱘖",
 		"tooltip-format": "{ifname}: {ipaddr}",
 		"on-click": "swaymsg exec \\$term_float nmtui"
@@ -196,6 +198,7 @@
 	},
 
 	"backlight": {
+		"scroll-step": 5,
 		"format": "{icon} {percent}%",
 		"format-icons": ["󰃞", "󰃟", "󰃠"],
 		"on-scroll-down": "light -A 1",
@@ -269,14 +272,16 @@
 	},
 
 	"bluetooth": {
-		"format": "{icon}",
-		"interval": 30,
-		"format-icons": {
-			"enabled": "󰂯",
-			"disabled": "󰂲"
-		},
-		"on-click": "blueberry",
-		"tooltip-format": "{}"
+		"min-length": 2,
+		"format": " ",
+		"format-connected": " {device_alias}",
+		"format-connected-battery": " {device_alias} {device_battery_percentage}%",
+		// "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
+		"tooltip-format": "{controller_alias}\t{controller_address}",
+		"tooltip-format-connected": "{controller_alias}\t{controller_address}\n{device_enumerate}",
+		"tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+		"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+		"on-click": "blueberry"
 	},
 
 	"sway/language": {
