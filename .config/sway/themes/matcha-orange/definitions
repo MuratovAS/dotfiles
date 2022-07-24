@@ -1,7 +1,7 @@
 # some global theme specific variables
 set $gtk-theme Matcha-dark-aliz
 set $icon-theme Papirus-Dark-Maia
-set $cursor-theme xcursor-breeze
+set $cursor-theme Breeze
 set $gui-font Roboto 11
 set $term-font RobotoMono Nerd Font 14
 set $kvantum-theme Matchama-Dark-Aliz

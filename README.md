@@ -532,19 +532,18 @@ rm -r /root/.config/micro
 ln -s /home/muratovas/.config/micro /root/.config/micro
 ```
 
-### Запуск терминальных программ через wofi
+### Проблемы с запуском приложений через wofi
 
-По умолчанию wofi не умеет запускать терминальные приложения, модифицируем .desktop ака. ярлыки
+Ярлыки ака. `.desktop` можно найти в каталоге:
 ```bash
-#cp  /usr/share/applications/NAME.desktop ~/.local/share/applications
-micro ~/.local/share/applications/NAME.desktop
+/usr/share/applications/NAME.desktop 
+~/.local/share/applications/NAME.desktop 
 ```
 
-Необходимо удалить строку, а так же изменить существующую
-```bash
-Exec=kitty NAME
-;Terminal=true
-```
+По умолчанию wofi не умеет запускать терминальные приложения, исправить это можно удалением опции `Terminal=true`.
+А так же потребуется указать терминал `Exec=foot APP`
+
+Так же проблемой может стать параметр `DBusActivatable`
 
 ### Running GUI applications as root
 
