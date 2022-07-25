@@ -24,10 +24,8 @@ export QT_QPA_PLATFORM="wayland"
 #export QT_QPA_PLATFORM="xcb"
 
 # Hardware token
-#export GPG_TTY="$(tty)"
-#export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-#gpgconf --launch gpg-agent
-
+export GPG_TTY="$(tty)"
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 
 # launch WM
 if [ -z $DISPLAY ] && [ "$XDG_SESSION_TYPE" = "tty" ] && [ "$XDG_SESSION_ID" = "1" ]; 
