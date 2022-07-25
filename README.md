@@ -45,6 +45,7 @@ btrfs subvolume create _active
 btrfs subvolume create _active/rootvol
 btrfs subvolume create _active/homevol
 #btrfs subvolume create _active/docker
+#btrfs subvolume create _active/libvirt
 btrfs subvolume create _snapshots
 ```
 
@@ -56,9 +57,11 @@ mount -o subvol=_active/rootvol /dev/sda2 /mnt
 mkdir /mnt/{home,boot,var}
 mkdir /mnt/boot/efi
 #mkdir /mnt/var/lib/docker
+#mkdir /mnt/var/lib/libvirt
 mkdir /mnt/mnt/defvol
 mount /dev/sda1 /mnt/boot/efi
 #mount -o subvol=_active/docker /dev/sda2 /mnt/var/lib/docker
+#mount -o subvol=_active/libvirt /dev/sda2 /mnt/var/lib/libvirt
 mount -o subvol=_active/homevol /dev/sda2 /mnt/home
 mount -o subvol=/ /dev/sda2 /mnt/mnt/defvol
 ```
@@ -398,7 +401,7 @@ sudo rc-update add chrony
 
 По необходимости можно добавить свой сервер и проверить работоспособность
 ```bash
-echo "server 192.168.10.1 iburst" >> /etc/chrony.conf
+echo "server ntp.local iburst" >> /etc/chrony.conf
 chronyc tracking
 chronyc sources
 ```
@@ -488,6 +491,7 @@ sudo pacman -S zathura-pdf-poppler zathura-djvu
 
 Расширение поддержки устройств и форматов файлов
 ```bash
+sudo pacman -S ntfs-3g
 sudo pacman -S p7zip unrar
 sudo pacman -S gvfs-mtp exfat-utils
 ```
@@ -562,22 +566,22 @@ xhost -si:localuser:root
 
 ```bash
 librewolf
-gnome-calculator
-libreoffice
+gnome-calculator-gtk3
+libreoffice-fresh
 evince
 drawing
 audacious
 gnome-disk-utility
-#gnome-logs
-#seahorse
+seahorse
 
-nextcloud
-kdeconnect-indicator
-Telegram Desktop
+nextcloud-client
+kdeconnect
+telegram-desktop
 
-kicad
 gittyup
+kicad
 
+#gnome-logs
 #vdirsyncer
 #wayvnc
 #Tor
