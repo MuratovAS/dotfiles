@@ -416,6 +416,7 @@ yay -S sway-xkb-switcher                # Позволяет сохранять 
 yay -S sworkstyle                       # Отображает логотипы приложений открытых в WS
 yay -S wlsunset                         # Ночный режим, фильтр синего цвета
 sudo pacman -S khal                     # Календарь
+sudo pacman -S gnome-keyring            # Систума управления ключами (необходима для многих приложений)
 khal configure
 ```
 
@@ -546,8 +547,6 @@ ln -s /home/muratovas/.config/micro /root/.config/micro
 
 По умолчанию wofi не умеет запускать терминальные приложения, исправить это можно удалением опции `Terminal=true`.
 А так же потребуется указать терминал `Exec=foot APP`
-
-Так же проблемой может стать параметр `DBusActivatable`
 
 ### Running GUI applications as root
 
