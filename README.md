@@ -4,7 +4,7 @@
 
 ![Альтернативный текст](/design/scr.png)
 
-# Установка Artix (OpenRC) + Sway WN
+# Установка Artix (OpenRC) + Sway WM
 
 Для установки системы нам потребуется USB накопитель с предварительно записанным artix linux xfce4. Редакция с графическим интерфейсом упростит дальнейшую работу, позволит использовать буфер обмена и GUI для проверки корректности разметки диска.
 
@@ -479,6 +479,7 @@ sudo pacman -S fuse-common fuse3 fuse2
 sudo pacman -S pamac
 sudo pacman -S gnome-disk-utility
 sudo pacman -S nautilus
+yay -S nautilus-open-any-terminal
 sudo pacman -S file-roller
 yay -S buttermanager
 ```
