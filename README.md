@@ -253,6 +253,7 @@ passwd ИМЯ
 sed '/%wheel ALL=(ALL:ALL) ALL/s/^#//' -i /etc/sudoers
 echo -e '## Same thing without a password\n%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/openrc-shutdown' >> /etc/sudoers
 echo -e '%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/rc-service' >> /etc/sudoers
+echo -e '%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/libinput' >> /etc/sudoers
 #echo -e '%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/VBoxService' >> /etc/sudoers
 ```
 
@@ -381,8 +382,11 @@ fc-list
 sudo pacman -S light            # Управляет подсветкой
 yay -S poweralertd              # Уведомляет о состоянии питания
 sudo pacman -S tlp tlp-openrc   # менеджер питания
+yay -S tlpui
 sudo rc-service tlp restart
 sudo rc-update add tlp 
+
+sudo pacman -S libinput         # Автоматизация клавиш мыши 
 
 sudo pacman -S bluez blueberry  # GUI bluetooth
 sudo usermod -aG rfkill ИМЯ
