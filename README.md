@@ -252,6 +252,7 @@ passwd ИМЯ
 ```bash
 sed '/%wheel ALL=(ALL:ALL) ALL/s/^#//' -i /etc/sudoers
 echo -e '## Same thing without a password\n%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/openrc-shutdown' >> /etc/sudoers
+echo -e '%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/rc-service' >> /etc/sudoers
 #echo -e '%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/VBoxService' >> /etc/sudoers
 ```
 
