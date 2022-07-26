@@ -201,8 +201,8 @@
 		"scroll-step": 5,
 		"format": "{icon} {percent}%",
 		"format-icons": ["󰃞", "󰃟", "󰃠"],
-		"on-scroll-down": "light -A 1",
-		"on-scroll-up": "light -U 1"
+		"on-scroll-down": "swaymsg exec \\$brightness_down",
+		"on-scroll-up": "swaymsg exec \\$brightness_up"
 	},
 
 	"idle_inhibitor": {

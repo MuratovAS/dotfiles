@@ -1,7 +1,7 @@
 ### Variables
 
 set $theme $HOME/.config/sway/themes/matcha-green
-set $background $HOME/.config/sway/background/1.png
+set $background $HOME/.config/sway/background/20.jpg
 
 # Logo key. Use Mod1 for Alt and Mod4 for Super.
 set $mod Mod4
@@ -23,8 +23,8 @@ set $locking swaylock --daemonize --config $HOME/.config/swaylock/swaylock
 #
 set $idle swayidle -w \
 	timeout 120 'light -G > /tmp/brightness && light -S 10' resume 'light -S $([ -f /tmp/brightness ] && cat /tmp/brightness || echo 100%)' \
-	timeout 240 'exec $locking' \
-	timeout 480 'swaymsg "output * dpms off"' \
+	timeout 480 'exec $locking' \
+	timeout 1800 'swaymsg "output * dpms off"' \
 	resume 'swaymsg "output * dpms on"' \
 	before-sleep 'exec $locking'
 
@@ -34,9 +34,10 @@ set $brightness_up light -r -A $($brightness_step)
 set $brightness_down light -r -U $($brightness_step)
 
 # audio control
+set $volume_step 5
 set $pulsemixer $term_float pulsemixer
-set $volume_down pamixer -d 1
-set $volume_up pamixer -i 1
+set $volume_down pamixer -d $volume_step
+set $volume_up pamixer -i $volume_step
 set $volume_mute pamixer -t
 set $mic_mute pamixer -t --default-source
 
