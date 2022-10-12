@@ -34,7 +34,7 @@ set $brightness_up light -r -A $($brightness_step)
 set $brightness_down light -r -U $($brightness_step)
 
 # audio control
-set $volume_step 5
+set $volume_step 2
 set $pulsemixer $term_float pulsemixer
 set $volume_down pamixer -d $volume_step
 set $volume_up pamixer -i $volume_step

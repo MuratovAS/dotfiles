@@ -1,4 +1,6 @@
 #!/bin/sh
+sleep 3
+
 # make default editor
 export EDITOR=micro
 export VISUAL=micro
@@ -20,16 +22,18 @@ export GTK_CSD=0
 export QT_QPA_PLATFORMTHEME=qt5ct
 export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
 export QT_QPA_PLATFORM="wayland"
-#export QT_SCALE_FACTOR="1.2"
+#export QT_SCREEN_SCALE_FACTORS="2;1"
 #export QT_QPA_PLATFORM="xcb"
+#export QT_SCALE_FACTOR="2"
 
 # Hardware token
 export GPG_TTY="$(tty)"
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 
 # launch WM
-if [ -z $DISPLAY ] && [ "$XDG_SESSION_TYPE" = "tty" ] && [ "$XDG_SESSION_ID" = "1" ]; 
+if [ "$(tty)" = "/dev/tty1" ] && [ "$XDG_SESSION_TYPE" = "tty" ] && [ "$XDG_SESSION_ID" = "1" ]; ; 
 then
 	export XDG_SESSION_DESKTOP=sway
+	export XDG_CURRENT_DESKTOP=sway
 	dbus-launch sway
 fi

@@ -554,6 +554,22 @@ ln -s /home/muratovas/.config/micro /root/.config/micro
 По умолчанию wofi не умеет запускать терминальные приложения, исправить это можно удалением опции `Terminal=true`.
 А так же потребуется указать терминал `Exec=foot APP`
 
+### agetty autologin 
+
+`/etc/conf.d/agetty.tty1`
+
+```bash
+agetty_options="-J -a ИМЯ"
+```
+
+### Disconnect CPU Boost
+
+`/etc/init.d/tlp`
+
+```bash
+start()   { echo 0 > /sys/devices/system/cpu/cpufreq/boost; /usr/bin/tlp init start; }
+```
+
 ### Running GUI applications as root
 
 A more versatile —though much less secure— workaround is to use xhost to temporarily allow the root user to access the local user's X session[5]. To do so, execute the following command as the current (unprivileged) user: 
@@ -573,6 +589,7 @@ xhost -si:localuser:root
 librewolf
 gnome-calculator-gtk3
 libreoffice-fresh
+libreoffice-fresh-ru
 evince
 drawing
 audacious
@@ -586,14 +603,11 @@ telegram-desktop
 gittyup
 kicad
 
-#gnome-logs
 #vdirsyncer
 #wayvnc
-#Tor
 #Solaar
 #kdiskmark
 #remmine
 #krita
-#VS Code
 #darktable
 ```

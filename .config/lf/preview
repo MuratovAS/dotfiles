@@ -40,7 +40,7 @@ case "$(printf "%s\n" "$(readlink -f "$1")" | awk '{print tolower($0)}')" in
 	*.torrent) transmission-show "$1" ;;
 	*.md) glow -s dark "$1" ;;
 	*.bmp|*.jpg|*.jpeg|*.png|*.xpm|*.webp) #*.gif
-			image "$1" "$2" "$3" "$4" "$5" ;;	
+			image "$1" "$2" "$3" "$4" "$5" ;;
 	*.svg)
 		[ ! -f "${CACHE}.jpg" ] && \
 			convert "$1" "${CACHE}.jpg"
@@ -49,6 +49,8 @@ case "$(printf "%s\n" "$(readlink -f "$1")" | awk '{print tolower($0)}')" in
 		[ ! -f "${CACHE}.jpg" ] && \
 			pdftoppm -jpeg -f 1 -singlefile "$1" "$CACHE"
 		image "${CACHE}.jpg" "$2" "$3" "$4" "$5" ;;
-	*) batorcat "$1" ;;
+	*) xdg-mime query filetype "$1" | grep "text/plain" && batorcat "$1" ;;
 esac
 exit 1
+
+#*.avi|*.mp4|*.mkv) 	;;
