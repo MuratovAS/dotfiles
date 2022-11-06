@@ -20,8 +20,7 @@
 
 	to {
 		color: @text;
-		background-color: @warning
-   ;
+		background-color: @warning;
 	}
 }
 
@@ -32,8 +31,7 @@
 
 	to {
 		color: @text;
-		background-color: @error
-   ;
+		background-color: @error;
 	}
 }
 
@@ -246,4 +244,17 @@
 
 #custom-help {
 	padding-bottom: 2px;
+}
+
+button {
+    border: none;
+}
+
+button:hover {
+    background: inherit;
+}
+
+label:disabled,
+button:disabled {
+    color: inherit;
 }

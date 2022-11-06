@@ -114,7 +114,7 @@
 	// -------------------------------------------------------------------------
 	"custom/left-arrow": {
 		"format": "",
-		"tooltip": false
+		"tooltip": false,
 	},
 	"custom/right-arrow": {
 		"format": "",
@@ -142,6 +142,7 @@
 			"󰁹"  // Icon: battery-full
 		],
 		"tooltip": false,
+		"on-click":""
 		// "bat": "BAT0"
 	},
 
@@ -176,7 +177,7 @@
 	},
 
 	"network": {
-		"interface": "eth0",
+		"interface": "wlan0",
 		"min-length": 4,
 		"interval": 5,
 		"format": "{ifname}",
@@ -202,7 +203,8 @@
 		"format": "{icon} {percent}%",
 		"format-icons": ["󰃞", "󰃟", "󰃠"],
 		"on-scroll-down": "swaymsg exec \\$brightness_down",
-		"on-scroll-up": "swaymsg exec \\$brightness_up"
+		"on-scroll-up": "swaymsg exec \\$brightness_up",
+		"on-click":""
 	},
 
 	"idle_inhibitor": {

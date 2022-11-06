@@ -30,6 +30,8 @@ export QT_QPA_PLATFORM="wayland"
 export GPG_TTY="$(tty)"
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 
+light -S 60
+
 # launch WM
 if [ "$(tty)" = "/dev/tty1" ] && [ "$XDG_SESSION_TYPE" = "tty" ] && [ "$XDG_SESSION_ID" = "1" ]; ; 
 then

@@ -1,6 +1,6 @@
 ### Variables
 
-set $theme $HOME/.config/sway/themes/matcha-green
+set $theme $HOME/.config/sway/themes/matcha-blue
 set $background $HOME/.config/sway/background/20.jpg
 
 # Logo key. Use Mod1 for Alt and Mod4 for Super.
