@@ -85,6 +85,16 @@
 }
 
 /* -----------------------------------------------------------------------------
+ * EX
+ * -------------------------------------------------------------------------- */
+
+#custom-right-arrow, #custom-left-arrow {
+	color: @bg_dark;
+	font-size: 26px;
+	opacity: 1;
+}
+
+/* -----------------------------------------------------------------------------
  * user
  * -------------------------------------------------------------------------- */
 
@@ -96,22 +106,30 @@
 	font-size: 16px;
 }
 
-/* -----------------------------------------------------------------------------
- * EX
- * -------------------------------------------------------------------------- */
+#custom-menu {
+    color: inherit;
+	background-color: @accent;
+}
 
-#custom-right-arrow, #custom-left-arrow {
-	color: @bg_dark;
-	font-size: 26px;
-	opacity: 1;
+#custom-scratchpad {
+    color: inherit;
+	background-color: @accent;
+}
+
+#custom-scratchpad {
+	background-color: @accent;
+}
+
+#custom-pacman {
+	color: @warning;
 }
 
 /* -----------------------------------------------------------------------------
  * Module styles
  * -------------------------------------------------------------------------- */
 
-#custom-scratchpad {
-	background-color: @accent;
+#mode {
+	background: @bg;
 }
 
 #battery {
@@ -143,20 +161,12 @@
    /* background-color: @accent;*/
 }
 
-#cpu {
-  /* No styles */
-}
-
 #cpu.warning {
 	color: @warning;
 }
 
 #cpu.critical {
 	color: @error;
-}
-
-#custom-menu {
-	background-color: @accent;
 }
 
 #memory {
@@ -175,10 +185,6 @@
 	animation-duration: 2s;
 }
 
-#mode {
-	background: @bg;
-}
-
 #network {
 	padding-right: 2px;
 }
@@ -187,25 +193,13 @@
 	color: @warning;
 }
 
-#pulseaudio {
-	/* No styles */
-}
-
 #pulseaudio.muted {
 	/* No styles */
 	color: @warning;
 }
 
-#temperature {
-	/* No styles */
-}
-
 #temperature.critical {
 	color: @error;
-}
-
-#tray {
-	/* No styles */
 }
 
 #window {
@@ -216,7 +210,7 @@
 
 #workspaces button {
 	/* To compensate for the top border and still have vertical centering */
-	padding-bottom: 2px;
+	/*padding-bottom: 2px;*/
 	padding-left: 5px;
 	padding-right: 5px;
 	color: @accent;
@@ -234,18 +228,16 @@
 	color: @error;
 }
 
-#custom-pacman {
+#bluetooth.on, #bluetooth.connected {
 	color: @warning;
 }
 
-#bluetooth.disabled {
-	color: @warning;
-}
 
-#custom-help {
-	padding-bottom: 2px;
-}
+/* -----------------------------------------------------------------------------
+ * Sys styles
+ * -------------------------------------------------------------------------- */
 
+/*
 button {
     border: none;
 }
@@ -254,7 +246,7 @@ button:hover {
     background: inherit;
 }
 
-label:disabled,
-button:disabled {
+button:disabled,*/
+label:disabled {
     color: inherit;
 }

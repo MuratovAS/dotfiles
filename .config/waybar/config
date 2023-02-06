@@ -31,7 +31,6 @@
 		"custom/screencast",
 		"custom/playerctl",
 		"network",
-		"bluetooth",
 		"temperature",
 		"cpu",
 		"memory",
@@ -40,6 +39,7 @@
 		"pulseaudio",
 		"custom/pacman",
 		"sway/language",
+		"bluetooth",
 		"custom/help",
 		//"upower",
 		"custom/sunset",
@@ -47,6 +47,18 @@
 		"tray",
 		"clock",
 	],
+	
+	// -------------------------------------------------------------------------
+	// EX
+	// -------------------------------------------------------------------------
+	"custom/left-arrow": {
+		"format": "",
+		"tooltip": false,
+	},
+	"custom/right-arrow": {
+		"format": "",
+		"tooltip": false
+	},
 
 	// -------------------------------------------------------------------------
 	// user
@@ -108,17 +120,26 @@
 		"on-click": "killall -s SIGINT wf-recorder && pkill -RTMIN+8 waybar",
 		"signal": 8
 	},
-
-	// -------------------------------------------------------------------------
-	// EX
-	// -------------------------------------------------------------------------
-	"custom/left-arrow": {
-		"format": "",
-		"tooltip": false,
+	
+	"custom/pacman": {
+		"format": "󰀼 {}",
+		"interval": 3600,
+		"exec-if": "[ $(pamac checkupdates -q | wc -l) -gt 0 ]",
+		"exec": "pamac checkupdates -q | wc -l",
+		"on-click": "pamac-manager --updates; pkill -SIGRTMIN+8 waybar",
 	},
-	"custom/right-arrow": {
-		"format": "",
+
+	"custom/menu": {
+		"format": "",
+		"on-click": "swaymsg exec \\$menu",
 		"tooltip": false
+	},
+
+	"custom/help": {
+		"format": "",
+		//"min-length": 1,
+		"tooltip": false,
+		"on-click": "swaymsg exec \"\\$term_float ~/.config/sway/scripts/help-keymap.sh\""
 	},
 
 	// -------------------------------------------------------------------------
@@ -166,8 +187,8 @@
 	},
 
 	"memory": {
-		"min-length": 5,
 		"interval": 5,
+		//"min-length": 5,
 		"format": "󰘚 {}%", // Icon: memory
 		"states": {
 			"warning": 70,
@@ -177,13 +198,14 @@
 	},
 
 	"network": {
-		"interface": "wlan0",
-		"min-length": 4,
 		"interval": 5,
+		"interface": "wlan0",
+		//"min-length": 4,
 		"format": "{ifname}",
-		"format-wifi": "󰖩  {essid} ({signalStrength}%)", // Icon: wifi
+		"format-wifi": "󰖩 {signalStrength}%", // Icon: wifi
 		"format-ethernet": "󰈀 {ifname}", // Icon: ethernet
 		"format-disconnected": "󱘖",
+		//"format-wifi": "󰖩  {essid} ({signalStrength}%)", // Icon: wifi
 		"tooltip-format": "{ifname}: {ipaddr}",
 		"on-click": "swaymsg exec \\$term_float nmtui"
 	},
@@ -199,7 +221,6 @@
 	},
 
 	"backlight": {
-		"scroll-step": 5,
 		"format": "{icon} {percent}%",
 		"format-icons": ["󰃞", "󰃟", "󰃠"],
 		"on-scroll-down": "swaymsg exec \\$brightness_down",
@@ -216,9 +237,8 @@
 	},
 
 	"pulseaudio": {
-		"scroll-step": 5,
-		"format": "{icon}{volume}%  󰍬{format_source}",
-		"format-bluetooth": "{icon}󰂰 {volume}%  󰍬{format_source}",
+		"format": "{icon} {volume}% 󰍬 {format_source}",
+		"format-bluetooth": "{icon}󰂰 {volume}% 󰍬 {format_source}",
 		"format-muted": "󰖁",
 		"format-icons": {
 			"headphones": "󰋋",
@@ -237,10 +257,10 @@
 	},
 
 	"temperature": {
-	  "min-length": 2,
+	  //"min-length": 2,
+	  "interval": 2,
 	  "hwmon-path": "/sys/class/hwmon/hwmon3/temp1_input",
 	  "critical-threshold": 65,
-	  "interval": 2,
 	  "format": "{icon} {temperatureC}°C",
 	  "format-icons": ["", "", ""],
 	  "tooltip": true,
@@ -252,32 +272,12 @@
 		"spacing": 10
 	},
 
-	"custom/pacman": {
-		"format": "󰀼 {}",
-		"interval": 3600,
-		"exec-if": "[ $(pamac checkupdates -q | wc -l) -gt 0 ]",
-		"exec": "pamac checkupdates -q | wc -l",
-		"on-click": "pamac-manager --updates; pkill -SIGRTMIN+8 waybar",
-	},
-
-	"custom/menu": {
-		"format": "",
-		"on-click": "swaymsg exec \\$menu",
-		"tooltip": false
-	},
-
-	"custom/help": {
-		"format": "",
-		"min-length": 1,
-		"tooltip": false,
-		"on-click": "swaymsg exec \"\\$term_float ~/.config/sway/scripts/help-keymap.sh\""
-	},
-
 	"bluetooth": {
-		"min-length": 2,
-		"format": " ",
-		"format-connected": " {device_alias}",
-		"format-connected-battery": " {device_alias} {device_battery_percentage}%",
+		"format": "",
+		"format-connected": "",
+		"format-connected-battery": " {device_battery_percentage}%",
+		//"format-connected": " {device_alias}",
+		//"format-connected-battery": " {device_alias} {device_battery_percentage}%",
 		// "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
 		"tooltip-format": "{controller_alias}\t{controller_address}",
 		"tooltip-format-connected": "{controller_alias}\t{controller_address}\n{device_enumerate}",
@@ -287,16 +287,9 @@
 	},
 
 	"sway/language": {
-		"format": " {}",
 		"min-length": 5,
+		"format": " {}",
 		"tooltip": false,
 		"on-click": "swaymsg input $(swaymsg -t get_inputs --raw | jq '[.[] | select(.type == \"keyboard\")][0] | .identifier') xkb_switch_layout next"
-	},
-
-	"upower": {
-		 "icon-size": 20,
-		 "hide-if-empty": true,
-		 "tooltip": true,
-		 "tooltip-spacing": 20
 	}
 }

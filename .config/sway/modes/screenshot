@@ -1,23 +1,44 @@
 set $mode_screenshot "<span foreground='$base0A'>󰄄</span>  \
-<span foreground='$base05'><b>Window</b></span> <span foreground='$base0A'>(<b>W</b>)</span> \
 <span foreground='$base05'><b>Screen</b></span> <span foreground='$base0A'>(<b>S</b>)</span> \
-<span foreground='$base05'><b>Area</b></span> <span foreground='$base0A'>(<b>A</b>)</span> \
-<span foreground='$base05'><b>Save File</b></span> <span foreground='$base0A'>(<b>+Shift</b>)</span>"
+<span foreground='$base05'><b>Region</b></span> <span foreground='$base0A'>(<b>R</b>)</span> \
+<span foreground='$base05'><b>Buffer</b></span> <span foreground='$base0A'>(<b>+Shift</b>)</span>"
 
-set $grimshot $HOME/.config/sway/scripts/grimshot.sh
+set $target_display $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') 
+set $grim_run exec grim
+set $grim_file $(xdg-user-dir PICTURES)/screenshot-$(date +'%Y-%m-%d-%H%M%S').png
+set $grim_copy - | wl-copy --type image/png 
+set $grim_notify notify-send -t 3000 -a grimshot 
 
 mode --pango_markup $mode_screenshot {
 
-	bindsym --to-code w exec $grimshot --notify copy window, mode "default"
-	bindsym --to-code Shift+w exec $grimshot --notify save window, mode "default"
+	bindsym --to-code s \
+			$grim_run \
+			-o $target_display \
+			$grim_file \
+			&& $grim_notify "Screenshot copied to file", \
+			mode "default"
 
-	# output = currently active output
-	bindsym --to-code s exec $grimshot --notify copy output, mode "default"
-	bindsym --to-code Shift+s exec $grimshot --notify save output, mode "default"
-	
-	# User can pick the area to screenshot
-	bindsym --to-code a exec $grimshot --notify copy area, mode "default"
-	bindsym --to-code Shift+a exec $grimshot --notify save area, mode "default"
+	bindsym --to-code Shift+s \
+			$grim_run \
+			-o $target_display \
+			$grim_copy \
+			&& $grim_notify "Screenshot copied to buffer", \
+			mode "default"
+
+
+	bindsym --to-code r \
+			$grim_run \
+			-g "$(slurp -d)" \
+			$grim_file \
+			&& $grim_notify "Screenshot copied to file", \
+			mode "default"
+
+	bindsym --to-code Shift+r \
+			$grim_run \
+			-g "$(slurp -d)" \
+			$grim_copy \
+			&& $grim_notify "Screenshot copied to buffer", \
+			mode "default"
 
 	# Return to default mode.
 	bindsym --to-code Escape mode "default"
@@ -26,5 +47,19 @@ mode --pango_markup $mode_screenshot {
 ## Launch // Screenshot Mode ##
 bindsym --to-code $mod+Shift+s mode $mode_screenshot ;###Снимок экрана 
 
-bindsym --to-code Ctrl+Shift+Print exec $grimshot --notify copy area ;###Быстрый скриншот
-bindsym --to-code Print exec $grimshot --notify save screen
+bindsym --to-code Ctrl+Shift+Print \
+			$grim_run \
+			-o $target_display \
+			$grim_file \
+			&& $grim_notify "Screenshot copied to file" \
+
+bindsym --to-code Ctrl+Print \
+			$grim_run \
+			-g "$(slurp -d)" \
+			$grim_copy  \
+			&& $grim_notify "Screenshot copied to buffer" \
+
+bindsym --to-code Print \
+			$grim_run \
+			-g "$(slurp -d)" - | \
+			swappy -f -

@@ -13,8 +13,10 @@ set $term_float $term_client -a floating_shell
 set $term_float_portrait $term_client -a floating_shell_portrait
 
 ### Lockscreen configuration
-#
-set $locking swaylock --daemonize --config $HOME/.config/swaylock/swaylock
+# swaylock-effects
+#set $locking swaylock --daemonize --config $HOME/.config/swaylock/swaylock
+# swaylock
+set $locking swaylock --daemonize --config $HOME/.config/swaylock/swaylock -i $background
 
 ### Idle configuration
 # This will lock your screen after 300 seconds of inactivity, then turn off

@@ -2,6 +2,7 @@
 rm -r -f  ./.config
 mkdir ./.config
 
+cp -r  ~/.config/swappy  ./.config
 cp -r  ~/.config/wlsunset  ./.config
 cp -r  ~/.config/sway ./.config
 cp -r  ~/.config/wofi ./.config

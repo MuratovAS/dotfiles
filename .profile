@@ -26,6 +26,10 @@ export QT_QPA_PLATFORM="wayland"
 #export QT_QPA_PLATFORM="xcb"
 #export QT_SCALE_FACTOR="2"
 
+# fix for VMSVGA graphics controller 
+#export WLR_NO_HARDWARE_CURSORS=1
+export XCURSOR_THEME="Breeze"
+
 # Hardware token
 export GPG_TTY="$(tty)"
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
@@ -37,5 +41,6 @@ if [ "$(tty)" = "/dev/tty1" ] && [ "$XDG_SESSION_TYPE" = "tty" ] && [ "$XDG_SESS
 then
 	export XDG_SESSION_DESKTOP=sway
 	export XDG_CURRENT_DESKTOP=sway
-	dbus-launch sway
+	dbus-run-session sway
+	#dbus-launch sway 
 fi

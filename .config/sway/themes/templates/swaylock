@@ -26,7 +26,6 @@ text-wrong-color=ACCENT_COLOR
 #show-failed-attempts
 hide-keyboard-layout
 
-indicator
 indicator-radius=200
 indicator-thickness=10
 screenshots

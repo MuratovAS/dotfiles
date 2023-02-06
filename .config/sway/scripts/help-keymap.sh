@@ -16,7 +16,7 @@ grep -h -r "bindsym" $targetSearch \
 	| sed '$a bindsym' \
 	| while read line; do
 	description_new=$(echo $line | grep -o '###.*$' |  tr -d "###")	
-	combination_new=$(echo $line | grep -o -e "\-\-to\-code [^ ]*" | sed 's/--to-code//' | sed 's/^ *//')
+	combination_new=$(echo $line | grep -o -e '--to-code [^ ]*' | sed 's/--to-code//' | sed 's/^ *//')
 	
 	if [[ "$description_new" = "$description" && "$description_new" != "" ]]
 	then 
