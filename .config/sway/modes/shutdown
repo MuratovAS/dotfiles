@@ -9,7 +9,7 @@ set $mode_shutdown "<span foreground='$base0A'></span>  \
 
 mode --pango_markup $mode_shutdown {
 	# lock
-	bindsym --to-code l mode "default", exec swaymsg exec '$locking' $USER
+	bindsym --to-code l mode "default", exec '$locking'
 
 	# logout
 	#bindsym --to-code e exec swaymsg exit
