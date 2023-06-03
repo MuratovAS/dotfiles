@@ -1,10 +1,10 @@
 #!/bin/bash
 #source $1
 #export SWAYSOCK=(ls /run/user/1000/sway-ipc.* | head -n 1)
-EVENT_SIDE1="swaymsg workspace next"
-EVENT_SIDE2="swaymsg workspace prev"
-EVENT_SCROLL_UP="swaymsg exec playerctl previous"
-EVENT_SCROLL_DOWN="swaymsg exec playerctl next"
+EVENT_SIDE1="swaymsg workspace next_on_output"
+EVENT_SIDE2="swaymsg workspace prev_on_output"
+#EVENT_SCROLL_UP="swaymsg exec playerctl previous"
+#EVENT_SCROLL_DOWN="swaymsg exec playerctl next"
 #EVENT_THUMB="exec playerctl play-pause"
 
 function pressCommand(){

@@ -69,8 +69,8 @@
 		"return-type": "json",
 		"format" : "{icon}",
 		"format-icons": {
-			"Playing": "",
-			"Paused": "喇"
+			"Playing": "󰐌",
+			"Paused": "󰏥"
 		},
 		"exec": "playerctl metadata --format '{\"alt\": \"{{status}}\", \"tooltip\": \"{{playerName}}:  {{markup_escape(title)}} - {{markup_escape(artist)}}\" }'",
 		"on-click": "playerctl play-pause; pkill -RTMIN+5 waybar",
@@ -86,8 +86,8 @@
 		"return-type": "json",
 		"format" : "{icon}",
 		"format-icons": {
-			"on": "" ,
-			"off": ""
+			"on": "󱩷" ,
+			"off": "󱓤"
 		},
 		"exec": "~/.config/sway/scripts/sunset.sh",
 		"on-click": "~/.config/sway/scripts/sunset.sh toggle; pkill -RTMIN+6 waybar",
@@ -100,8 +100,8 @@
 		"return-type": "json",
 		"format" : "{icon}",
 		"format-icons": {
-			"one": "类",
-			"many": "缾"
+			"one": "",
+			"many": ""
 		},
 		"exec": "~/.config/sway/scripts/scratchpad.sh",
 		"on-click": "swaymsg 'scratchpad show'",
@@ -136,7 +136,7 @@
 	},
 
 	"custom/help": {
-		"format": "",
+		"format": "󰋗",
 		//"min-length": 1,
 		"tooltip": false,
 		"on-click": "swaymsg exec \"\\$term_float ~/.config/sway/scripts/help-keymap.sh\""
@@ -274,8 +274,8 @@
 
 	"bluetooth": {
 		"format": "",
-		"format-connected": "",
-		"format-connected-battery": " {device_battery_percentage}%",
+		"format-connected": "󰂱",
+		"format-connected-battery": "󰂱{device_battery_percentage}%",
 		//"format-connected": " {device_alias}",
 		//"format-connected-battery": " {device_alias} {device_battery_percentage}%",
 		// "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
