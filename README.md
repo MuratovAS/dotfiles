@@ -389,7 +389,9 @@ sudo rc-update add tlp
 
 sudo pacman -S libinput         # Автоматизация клавиш мыши 
 
-sudo pacman -S bluez blueberry  # GUI bluetooth
+sudo pacman -S bluez bluez-utils
+sudo pacman -S bluetuith  # TUI bluetooth
+#sudo pacman -S blueberry  # GUI bluetooth
 sudo usermod -aG rfkill ИМЯ
 sudo usermod -aG lp ИМЯ
 sudo rc-service bluetoothd restart
