@@ -494,7 +494,7 @@ sudo pacman -S micro mc
 
 Набор приложений для просмотра медиа файлов
 ```bash
-sudo pacman -S mpv imv zathura
+sudo pacman -S mpv imv zathura f3d
 sudo pacman -S zathura-pdf-poppler zathura-djvu
 #sudo pacman -S ffmpeg ffmpegthumbnailer
 ```
@@ -509,7 +509,7 @@ sudo pacman -S gvfs-mtp exfat-utils
 Весьма специфичное ПО. В мой конфигурации используется файловый менеджер lf, с возможностью предпросмотр текстовых файлов. Устанавливается так:
 ```bash
 sudo pacman -S bat glow chafa
-yay -S lf-bin
+yay -S lf-sixel-git
 ```
 
 ## Что насчет принтера
@@ -589,8 +589,12 @@ xhost -si:localuser:root
 ### Software
 
 ```bash
-librewolf
+lazydocker
+remmina
+
+
 gnome-calculator-gtk3
+librewolf
 libreoffice-fresh
 libreoffice-fresh-ru
 evince

@@ -1,4 +1,6 @@
 # some global theme specific variables
+#set $gtk-theme Yaru-Red-dark
+#set $gtk-theme Yaru-Orange-dark
 set $gtk-theme Matcha-dark-aliz
 #set $icon-theme Papirus-Dark-Maia
 set $icon-theme Adwaita

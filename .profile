@@ -1,6 +1,9 @@
 #!/bin/sh
 sleep 3
 
+#TMP
+export GTK_THEME='Matcha-dark-aliz' 
+
 # make default editor
 export EDITOR=micro
 export VISUAL=micro

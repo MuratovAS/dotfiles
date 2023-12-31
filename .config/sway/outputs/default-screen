@@ -25,4 +25,4 @@ output HDMI-A-1 pos 0 0 scale 2
 output eDP-1 pos 0 1080 res 1920 1080
 
 workspace 1 output HDMI-A-1
-workspace 5 output eDP-1
+workspace 9 output eDP-1
