@@ -587,3 +587,10 @@ To remove this access after the application has been closed:
 ```bash
 xhost -si:localuser:root
 ```
+
+### gtk themes
+
+В недавнее время было замечено, что gtk4 не применяет установленную тему через `.config/gtk-4.0`. Решением было прописывать ее в `.profile`. 
+
+Наблюдаются проблемы с применением темы курсора, решения не нашел.
+
