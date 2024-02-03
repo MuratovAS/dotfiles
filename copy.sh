@@ -7,6 +7,7 @@ mkdir ./.local/src
 mkdir ./.local/bin
 
 
+cp -r  ~/.config/foot  ./.config
 cp -r  ~/.config/wbg  ./.config
 cp -r  ~/.config/swappy  ./.config
 cp -r  ~/.config/wlsunset  ./.config
