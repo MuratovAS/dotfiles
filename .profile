@@ -1,16 +1,11 @@
 #!/bin/sh
-sleep 3
-
-#TMP
-export GTK_THEME='Matcha-dark-aliz' 
-
 # make default editor
 export EDITOR=micro
 export VISUAL=micro
 export MICRO_TRUECOLOR=1
 
 #Electron
-export XDG_CONFIG_HOME=$HOME/.config
+export XDG_CONFIG_HOME=$HOME/.config/
 
 #Java theme
 export _JAVA_AWT_WM_NONREPARENTING=1
@@ -31,19 +26,19 @@ export QT_QPA_PLATFORM="wayland"
 
 # fix for VMSVGA graphics controller 
 #export WLR_NO_HARDWARE_CURSORS=1
-export XCURSOR_THEME="Breeze"
 
 # Hardware token
 export GPG_TTY="$(tty)"
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-
-light -S 60
+source ~/.password-store
 
 # launch WM
 if [ "$(tty)" = "/dev/tty1" ] && [ "$XDG_SESSION_TYPE" = "tty" ] && [ "$XDG_SESSION_ID" = "1" ]; ; 
 then
+	light -S 60
+
+	export GTK_THEME=Matcha-dark-sea 
 	export XDG_SESSION_DESKTOP=sway
 	export XDG_CURRENT_DESKTOP=sway
 	dbus-run-session sway
-	#dbus-launch sway 
 fi

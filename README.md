@@ -4,6 +4,8 @@
 
 ![Альтернативный текст](./design/scr.png)
 
+Автор в какой-то момент ~~поплыл кукухой,~~ начал использовать `dwl`. Информацию можно найти в [branch dwl](https://github.com/MuratovAS/dotfiles/tree/artix-dwl).
+
 # Установка Artix (OpenRC) + Sway WM
 
 Для установки системы нам потребуется USB накопитель с предварительно записанным artix linux xfce4. Редакция с графическим интерфейсом упростит дальнейшую работу, позволит использовать буфер обмена и GUI для проверки корректности разметки диска.
@@ -565,12 +567,12 @@ ln -s /home/muratovas/.config/micro /root/.config/micro
 agetty_options="-J -a ИМЯ"
 ```
 
-### Disconnect CPU Boost
+### Disconnect CPU Boost AMD
 
 `/etc/init.d/tlp`
 
-```bash
-start()   { echo 0 > /sys/devices/system/cpu/cpufreq/boost; /usr/bin/tlp init start; }
+```
+start()   { echo "passive" > /sys/devices/system/cpu/amd_pstate/status; echo 0 > /sys/devices/system/cpu/cpufreq/boost; /usr/bin/tlp init start; }
 ```
 
 ### Running GUI applications as root
@@ -584,39 +586,4 @@ To remove this access after the application has been closed:
 
 ```bash
 xhost -si:localuser:root
-```
-
-### Software
-
-```bash
-lazydocker
-remmina
-
-
-gnome-calculator-gtk3
-librewolf
-libreoffice-fresh
-libreoffice-fresh-ru
-evince
-drawing
-audacious
-gnome-disk-utility
-seahorse
-
-nextcloud-client
-kdeconnect
-telegram-desktop
-
-gittyup
-kicad
-
-#openssh-openrc
-#wayvnc
-
-#vdirsyncer
-#Solaar
-#kdiskmark
-#remmine
-#krita
-#darktable
 ```

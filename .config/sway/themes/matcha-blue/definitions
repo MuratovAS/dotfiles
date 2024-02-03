@@ -5,7 +5,7 @@ set $icon-theme Adwaita
 set $cursor-theme Breeze
 set $gui-font Roboto 11
 set $term-font RobotoMono 14
-set $kvantum-theme Matchama-Dark-Azul
+set $kvantum-theme KvArcDark
 set $color-scheme prefer-dark
 
 # a theme specific color map

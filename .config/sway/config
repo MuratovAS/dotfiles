@@ -8,14 +8,14 @@
 include $HOME/.config/sway/definitions
 
 # user
-include $HOME/.config/sway/inputs/*
-include $HOME/.config/sway/outputs/*
+include $HOME/.config/sway/inputs
+include $HOME/.config/sway/outputs
 
 # enable modes
 include $HOME/.config/sway/modes/*
 
-# only enable this if every app you use is compatible with wayland
-# xwayland disable
-
 # include additional configs e.g. to autostart applications
 include $HOME/.config/sway/config.d/*
+
+# only enable this if every app you use is compatible with wayland
+# xwayland disable
