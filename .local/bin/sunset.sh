@@ -3,7 +3,7 @@
 #Startup function
 function start(){
 	[[ -f "$HOME/.config/wlsunset/config" ]] && source "$HOME/.config/wlsunset/config"
-	temp_low=${temp_low:-"4000"}
+	temp_low=${temp_low:-"5000"}
 	temp_high=${temp_high:-"6500"}
 	duration=${duration:-"900"}
 	sunrise=${sunrise:-"07:00"}
@@ -47,12 +47,12 @@ case $1'' in
 	;;
 esac
 
-#Returns a string for Waybar 
+#Returns a string 
 if pkill -0 wlsunset
 then
-	class="on"
+	class="^lm(sunset.sh toggle; pkill -RTMIN+8 someblocks)󱩷 ^lm()"
 else
-	class="off"
+	class="^lm(sunset.sh toggle; pkill -RTMIN+8 someblocks)󱓤 ^lm()"
 fi	
 
-printf '{"alt":"%s"}\n' "$class"
+printf "$class"

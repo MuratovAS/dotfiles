@@ -1,9 +1,0 @@
-/* theme specific color values */
-@define-color bg 		#202530;
-@define-color bg_dark 	#0a0a0a;
-
-@define-color text 		#eeeeee;
-
-@define-color accent	#5fb8de;
-@define-color warning	#42aad6;
-@define-color error		#00b3ff;

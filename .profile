@@ -32,13 +32,18 @@ export GPG_TTY="$(tty)"
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 source ~/.password-store
 
+
 # launch WM
 if [ "$(tty)" = "/dev/tty1" ] && [ "$XDG_SESSION_TYPE" = "tty" ] && [ "$XDG_SESSION_ID" = "1" ]; ; 
 then
 	light -S 60
 
+	# export GTK_THEME=Matcha-dark-sea 
+	# export XDG_SESSION_DESKTOP=sway
+	# export XDG_CURRENT_DESKTOP=sway
+	# dbus-run-session sway
+	
 	export GTK_THEME=Matcha-dark-sea 
-	export XDG_SESSION_DESKTOP=sway
-	export XDG_CURRENT_DESKTOP=sway
-	dbus-run-session sway
+	export TERM="foot"
+	dbus-run-session dwl
 fi
