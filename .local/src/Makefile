@@ -51,12 +51,25 @@ clean:
 	rm -rf dmenu-wayland/build
 	cd noticat && make clean
 
+# init
+pull: 
+	ls -d */ | xargs -I {} bash -c "cd '{}' && git pull"
+
+clone:
+	git clone https://github.com/MuratovAS/dmenu-wayland
+	git clone https://github.com/MuratovAS/dwl.git
+	git clone https://github.com/MuratovAS/dwlb.git
+	git clone https://github.com/MuratovAS/noticat
+	git clone https://github.com/MuratovAS/someblocks
+	git clone https://codeberg.org/dnkl/wbg
+
+# debug
 killall:
 	killall dwl wbg dwlb someblocks noticat; echo "killall"
 
 run:
-	make killall
-	cd ${HOME}; TERM="foot"; dbus-run-session dwl;
+#	make killall
+	cd ${HOME}; dwl;
 
 .SECONDARY:
 .PHONY: mkdir dwl dwlb someblocks wbg dmenu-wayland noticat
