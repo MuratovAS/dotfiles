@@ -5,13 +5,14 @@ mkdir ./.config
 mkdir ./.local
 mkdir ./.local/src
 mkdir ./.local/bin
+mkdir ./.config/micro/colorschemes
 
 
 cp -r  ~/.config/foot  ./.config
 cp -r  ~/.config/wbg  ./.config
 cp -r  ~/.config/swappy  ./.config
-cp -r  ~/.config/wlsunset  ./.config
 cp -r  ~/.config/lf ./.config
+cp -r  ~/.config/micro/colorschemes  ./.config/micro
 
 cp -r  ~/.config/oh-my-zsh ./.config
 rm -r -f  ./.config/oh-my-zsh/cache

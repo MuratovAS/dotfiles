@@ -1,6 +1,4 @@
 #!/bin/bash
-
-#Startup function
 function start(){
 	[[ -f "$HOME/.config/wlsunset/config" ]] && source "$HOME/.config/wlsunset/config"
 	temp_low=${temp_low:-"5000"}
@@ -8,24 +6,9 @@ function start(){
 	duration=${duration:-"900"}
 	sunrise=${sunrise:-"07:00"}
 	sunset=${sunset:-"23:00"}
-	longitude=${longitude:-65}
-	latitude=${latitude:-65}
-	location=${location:-"off"}
-
-	if [ "${location}" = "on" ]; 
-	then
-		CONTENT=$(curl -s https://freegeoip.app/json/)
-		content_longitude=$(echo $CONTENT | jq '.longitude // empty')
-		longitude=${content_longitude:-"${longitude}"}
-		content_latitude=$(echo $CONTENT | jq '.latitude // empty')
-		latitude=${content_latitude:-"${latitude}"}
-		wlsunset -l $latitude -L $longitude -t $temp_low -T $temp_high -d $duration &
-	else
-		wlsunset -t $temp_low -T $temp_high -d $duration -S $sunrise -s $sunset &
-	fi
+	wlsunset -t $temp_low -T $temp_high -d $duration -S $sunrise -s $sunset &
 }
 
-#Accepts managing parameter 
 case $1'' in
 	'off')
    	pkill wlsunset
@@ -47,12 +30,10 @@ case $1'' in
 	;;
 esac
 
-#Returns a string 
 if pkill -0 wlsunset
 then
 	class="^lm(sunset.sh toggle; pkill -RTMIN+8 someblocks)󱩷 ^lm()"
 else
 	class="^lm(sunset.sh toggle; pkill -RTMIN+8 someblocks)󱓤 ^lm()"
 fi	
-
 printf "$class"
