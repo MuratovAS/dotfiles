@@ -5,6 +5,8 @@ mkdir ./.config
 mkdir ./.local
 mkdir ./.local/src
 mkdir ./.local/bin
+mkdir ./.local/share
+mkdir ./.config/micro/
 mkdir ./.config/micro/colorschemes
 
 
@@ -12,7 +14,7 @@ cp -r  ~/.config/foot  ./.config
 cp -r  ~/.config/wbg  ./.config
 cp -r  ~/.config/swappy  ./.config
 cp -r  ~/.config/lf ./.config
-cp -r  ~/.config/micro/colorschemes  ./.config/micro
+cp -r  ~/.config/micro/colorschemes  ./.config/micro/colorschemes
 
 cp -r  ~/.config/oh-my-zsh ./.config
 rm -r -f  ./.config/oh-my-zsh/cache
@@ -25,4 +27,5 @@ cp  ~/.zshrc ./
 cp  ~/.local/bin/*.sh ./.local/bin
 cp  ~/.local/src/Makefile ./.local/src/Makefile
 cp  ~/.local/src/theme.h ./.local/src/theme.h
+cp  ~/.local/share/mako ./.local/share/mako
 
