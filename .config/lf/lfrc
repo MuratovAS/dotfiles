@@ -1,5 +1,0 @@
-set hidden
-set info size
-#set sortby time
-set previewer ~/.config/lf/preview
-#set cleaner ~/.config/lf/cleaner

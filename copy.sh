@@ -11,15 +11,17 @@ mkdir ./.config/micro/colorschemes
 
 
 cp -r  ~/.config/foot  ./.config
+cp -r  ~/.config/neofetch  ./.config
 cp -r  ~/.config/wbg  ./.config
 cp -r  ~/.config/swappy  ./.config
-cp -r  ~/.config/lf ./.config
-cp -r  ~/.config/micro/colorschemes  ./.config/micro/colorschemes
+cp -r  ~/.config/micro/colorschemes/everforest.micro  ./.config/micro/colorschemes/
+cp -r  ~/.config/xdg-desktop-portal  ./.config
 
 cp -r  ~/.config/oh-my-zsh ./.config
 rm -r -f  ./.config/oh-my-zsh/cache
 rm -r -f  ./.config/oh-my-zsh/.git
 
+cp  ~/.config/electron-flags.conf ./.config
 cp  ~/.config/user-dirs.dirs ./.config
 cp  ~/.profile ./
 cp  ~/.zshrc ./

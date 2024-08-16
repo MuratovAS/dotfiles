@@ -33,13 +33,19 @@ source ~/.password-store
 export GPG_TTY="$(tty)"
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 
+# export TERM="xterm-256color"
+
 # Launch WM
-if [ "$(tty)" = "/dev/tty1" ] && [ "$XDG_SESSION_TYPE" = "tty" ] && [ "$XDG_SESSION_ID" = "1" ]; 
+if [ "$XDG_SESSION_TYPE" = "tty" ] && [ "$XDG_SESSION_ID" = "1" ]; 
 then
 	light -S 60
-	export TERM="foot"
-	export TERMINAL_COMMAND="foot"
-	export KVANTUM_THEME=Matcha-sea-dark 
+	export TERM_COMMAND="foot"
 	export GTK_THEME=Matcha-dark-sea
+	`sleep 3 && \
+	gsettings set org.gnome.desktop.interface gtk-theme Matcha-dark-sea; \
+	gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' \
+	gsettings set org.gnome.desktop.interface icon-theme AdwaitaLegacy; \
+	gsettings set org.gnome.desktop.interface cursor-theme Breeze; \
+	gsettings set org.gnome.desktop.interface font-name "Roboto 11"` &
 	dbus-run-session dwl
 fi
