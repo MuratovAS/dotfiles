@@ -604,6 +604,7 @@ sudo pacman -S librewolf
 sudo pacman -S micro mc fzf neofetch
 sudo pacman -S bat glow chafa
 sudo pacman -S pass cmus
+sudo pacman -S netcat
 ```
 
 Набор приложений для просмотра медиа файлов
@@ -635,7 +636,7 @@ flatpak install flathub com.jgraph.drawio.desktop
 flatpak install flathub io.github.f3d_app.f3d
 flatpak install flathub org.telegram.desktop
 flatpak install flathub com.jeffser.Alpaca
-flatpak install flathub com.jetpackduba.Gitnuro
+flatpak install flathub com.github.Murmele.Gittyup
 flatpak install flathub io.github.flattool.Warehouse
 
 sudo pacman -S kdeconnect
