@@ -222,15 +222,7 @@ cd yay
 makepkg -i
 ```
 
-## 
-
-TODO:
-
-```
-pacman -S device-mapper-dinit lvm2-dinit cryptsetup-dinit
-```
-
-## Установка загрузчика
+## ## Установка загрузчика
 
 за hibernation отвечает `resume`
 
@@ -247,6 +239,7 @@ dinitctl enable cryptsetup
 ```
 
 Добавим `HOOK` в `/etc/mkinitcpio.conf`
+
 ```bash
 HOOKS=( ......... encrypt, lvm2, resume)
 ```
@@ -262,6 +255,7 @@ blkid -s UUID -o value /dev/nvme0n1p1
 ```
 
 Редактируем `/etc/default/grub`
+
 ```bash
 # GRUB_CMDLINE_LINUX_DEFAULT
 # GRUB_CMDLINE_LINUX_DEFAULT="cryptdevice=UUID=ИЗ_blkid:lvm-system loglevel=3 quiet resume=UUID=ИЗ_FSTAB_SWAP"
@@ -321,6 +315,7 @@ cryptsetup -v luksAddKey /dev/sda3 /etc/cryptsetup-keys.d/cryptlvm.key
 ```
 
 Добавим в `/etc/mkinitcpio.conf`
+
 ```
 FILES=(/etc/cryptsetup-keys.d/cryptlvm.key)
 ```
@@ -332,6 +327,7 @@ GRUB_CMDLINE_LINUX="... cryptkey=rootfs:/etc/cryptsetup-keys.d/cryptlvm.key"
 ```
 
 Обновим `GRUB` и `ramfs`
+
 ```
 mkinitcpio -p linux
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=artix --removable --recheck /dev/nvme0n1
@@ -555,6 +551,7 @@ cp /etc/dinit.d/config/agetty-default.conf /etc/dinit.d/config/agetty-tty1.conf
 ```
 
 Содержание `/etc/dinit.d/config/agetty-tty1.conf`
+
 ```bash
  # DO NOT REMOVE THIS FILE!
  # Note: You can copy and rename this file to the name of the tty you
@@ -568,6 +565,7 @@ cp /etc/dinit.d/config/agetty-default.conf /etc/dinit.d/config/agetty-tty1.conf
 ## Disconnect CPU Boost AMD
 
 Содержание `/etc/dinit.d/legion`
+
 ```
 type          = scripted
 command       = /bin/sh -c "echo 'passive' > /sys/devices/system/cpu/amd_pstate/status; echo 0 > /sys/devices/system/cpu/cpufreq/boost;"
@@ -647,6 +645,7 @@ yay -S trayscale
 ```
 
 ## Установка `docker`
+
 ```bash
 sudo pacman -S docker docker-compose docker-dinit
 sudo dinitctl start dockerd
@@ -655,6 +654,7 @@ yay -S lazydocker
 ```
 
 ## Установка `kvm/qemu`
+
 ```
 sudo pacman -S dmidecode virt-manager virt-viewer qemu edk2-ovmf vde2 dnsmasq bridge-utils libvirt-dinit #qemu-full
 sudo usermod -a -G libvirt $(whoami)
@@ -670,6 +670,7 @@ flatpak install flathub org.gtk.Gtk3theme.Breeze
 ```
 
 Так же следует добавить `env` для всех `flatpak` приложений
+
 ```
 GTK_THEME=Matcha-dark-sea
 ICON_THEME=AdwaitaLegacy
@@ -679,6 +680,7 @@ ICON_THEME=AdwaitaLegacy
 [Flatpak documentation they are blacklisted](https://docs.flatpak.org/en/latest/sandbox-permissions.html?ref=itsfoss.com#filesystem-access).
 [Apply GTK System Themes on Flatpak Apps in Linux](https://itsfoss.com/flatpak-app-apply-theme/)
 
-Credit:
-https://www.thegeekstuff.com/2016/03/cryptsetup-lukskey/
-https://habr.com/ru/articles/716308/
+## Credit:
+
+[10 Linux cryptsetup Examples for LUKS Key Management (How to Add, Remove, Change, Reset LUKS encryption Key)](https://www.thegeekstuff.com/2016/03/cryptsetup-lukskey/)
+[Artix Linux. Установка с полным/частичным шифрованием; Хабр](https://habr.com/ru/articles/716308/)
