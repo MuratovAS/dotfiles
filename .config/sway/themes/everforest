@@ -1,0 +1,61 @@
+# https://github.com/chriskempson/base16/blob/main/styling.md
+
+set $gtk-theme Matcha-dark-sea
+set $icon-theme AdwaitaLegacy
+set $cursor-theme Breeze
+set $color-scheme prefer-dark
+set $gui-font Roboto 11
+
+# black
+set $regular0  #2c3538
+set $bright0   #868d80
+# red
+set $regular1  #e67e80
+set $bright1   #ff8c8e
+# green
+set $regular2  #a7c080
+set $bright2   #bdd991
+# yellow
+set $regular3  #dbbc7f
+set $bright3   #f5d38e
+# blue
+set $regular4  #7fbbb3
+set $bright4   #90d4cb
+# magenta
+set $regular5  #d699b6
+set $bright5   #f0aacc
+# cyan
+set $regular6  #83c092
+set $bright6   #93d9a5
+# white
+set $regular7  #caded0
+set $bright7   #e1f7e8
+
+set $base00 $regular0
+	set $base01 #2d353b
+	set $base02 #505a60
+set $base03 $bright0
+	set $base04 #9da9a0
+set $base05 $regular7
+	set $base06 #f4efe4
+set $base07 $bright7
+set $base08 $regular1
+		set $base09 #db7b55
+set $base0A $regular3
+set $base0B $regular2
+set $base0C $regular2
+set $base0D $regular6
+set $base0E $regular5
+		set $base0F #8a553f
+
+default_border pixel 2
+hide_edge_borders smart
+
+# Basic color configuration using the Base16 variables for windows and borders.
+# Property Name         Border  BG      Text    Indicator Child Border
+client.focused          $base05 $base0C $base00 $base0C $base0C
+client.focused_inactive $base01 $base01 $base05 $base03 $base01
+client.unfocused        $base01 $base00 $base05 $base01 $base01
+client.urgent           $base08 $base08 $base00 $base08 $base08
+client.placeholder      $base00 $base00 $base05 $base00 $base00
+client.background       $base07

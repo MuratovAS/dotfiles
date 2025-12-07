@@ -1,0 +1,48 @@
+set $swaydir $HOME/.config/sway
+
+set $theme $swaydir/themes/everforest
+set $background $swaydir/bg2.jpg
+
+# set $mod Mod1
+set $mod Mod4
+
+set $term foot
+set $term_float $term -a floating_shell
+
+set $locking swaylock -f --daemonize --config $HOME/.config/swaylock/swaylock -i $background
+set $notifications mako -c $HOME/.config/mako/mako
+set $menu $term_float $HOME/.config/sway/scripts/sway-launcher-desktop.sh 
+
+
+set $idle swayidle -w \
+	timeout 120 'light -G > /tmp/brightness && light -S 10' resume 'light -S $([ -f /tmp/brightness ] && cat /tmp/brightness || echo 100%)' \
+	timeout 240 'exec $locking' \
+	timeout 480 'swaymsg "output * dpms off"' \
+	resume 'swaymsg "output * dpms on"' \
+	before-sleep 'exec $locking'
+	
+set $brightness_step 5
+set $brightness_up light -A $brightness_step
+set $brightness_down light -U $brightness_step
+
+set $volume_step 2
+set $pulsemixer $term_float pulsemixer
+set $volume_down pamixer -d $volume_step
+set $volume_up pamixer -i $volume_step
+set $volume_mute pamixer -t
+set $mic_mute pamixer -t --default-source
+
+bar {
+	id default
+	swaybar_command waybar
+}
+
+xwayland enable
+
+include $theme
+include $swaydir/inputs
+include $swaydir/outputs
+include $swaydir/style
+include $swaydir/modes/*
+include $swaydir/config-custom
+include $swaydir/autostart

@@ -1,17 +1,17 @@
 # Dotfiles
 
-В этом репозитории вы найдете мой набор конфигураций `dwl` и `artix (dinit)`. Скорее это все одна большая инструкция по сборки системы, подобной моей.
+В этом репозитории вы найдете мой набор конфигураций `sway` и `artix (openrc)`. Скорее это все одна большая инструкция по сборки системы, подобной моей.
 Все необходимые компоненты вы найдете в файлах или в соответствующих репозиториях в моем профиле.
 
 Основные положения:
 
 - Минималистичная система (меньше компонентов = меньше звеньев отказа)
-- Простое администрирование (`dinit`, `btrfs`)
+- Простое администрирование (`openrc`, `btrfs`)
 - Нейтральный, единообразный дизайн/стиль
 - Атомарность приложений (все пользовательские приложения в `flatpak`)
 - LUKS
 
-![Альтернативный текст](./design/scr.png)
+![screenshot](./design/scr.png)
 
 # Установка Artix
 
@@ -25,7 +25,7 @@ sudo su
 
 ## Разметка диска
 
-В первую очередь необходимо создать разметку ФС (в нашем случае `GPT`).
+В первую очередь необходимо создать разметку FS (в нашем случае `GPT`).
 Установку системы будем производить на `ssd`, в качестве корневой системы используем `btrfs`.
 Ориентировочная структура разделов:
 
@@ -104,14 +104,14 @@ mount -o subvol=/ /dev/lvmSystem/volRoot /mnt/mnt/defvol
 
 ## Установка базовой системы
 
-В качестве системы используем `dinit`.
+В качестве системы инициализации используем `openrc`.
 В качестве системы управления сеансами будет использоваться `elogind`, можно заменить его на `seatd`. Стоит отметить `seatd` не поддерживает `polkit`, это может стать серьезной проблемой при запуске GUI приложений требующих привилегированного доступа. В таком случае придется запускать GUI приложения от `root`, что не безопасно и неудобно.
 В зависимости от архитектуры целевой машины выберите `ucode`.
 
 ```bash
-basestrap /mnt base base-devel dinit 
-basestrap /mnt elogind-dinit polkit  polkit-qt5 polkit-gnome
-# OR seatd-dinit #NOT support polkit
+basestrap /mnt base base-devel openrc 
+basestrap /mnt elogind-openrc polkit polkit-qt5 polkit-qt6 polkit-gnome
+# OR seatd-openrc #NOT support polkit
 
 basestrap /mnt btrfs-progs linux linux-headers linux-firmware
 
@@ -139,8 +139,8 @@ artix-chroot /mnt
 В данном примере `hwclock` позволит установить время по аппаратным часам
 
 ```bash
-ln -sf /usr/share/zoneinfo/Asia/ГОРОД /etc/timezone
-hwclock --systohc
+# ln -sf /usr/share/zoneinfo/Asia/ГОРОД /etc/timezone
+# hwclock --systohc
 ```
 
 Установим базовое ПО (необязательно)
@@ -152,8 +152,8 @@ pacman -S vi nano htop wget
 Установим пакеты для управления сетевым соединением
 
 ```bash
-pacman -S dhcpcd dhclient networkmanager networkmanager-dinit
-dinitctl enable NetworkManager
+pacman -S dhcpcd dhclient networkmanager networkmanager-openrc
+rc-update add networkmanager sysinit
 ```
 
 Настройка языковых пакетов
@@ -191,9 +191,6 @@ pacman -S artix-archlinux-support
 [extra]
 Include = /etc/pacman.d/mirrorlist-arch
 
-[community]
-Include = /etc/pacman.d/mirrorlist-arch
-
 [multilib]
 Include = /etc/pacman.d/mirrorlist-arch
 ```
@@ -220,22 +217,23 @@ wget https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz
 tar -xvf yay.tar.gz
 cd yay
 makepkg -i
+cd ..
+rm -rf yay
 ```
 
-## ## Установка загрузчика
+## Установка загрузчика
 
-за hibernation отвечает `resume`
+За hibernation отвечает параметр `resume`
 
-### GRUB
 
 ```bash
-pacman -S device-mapper-dinit lvm2-dinit cryptsetup-dinit
+pacman -S device-mapper-openrc lvm2-openrc cryptsetup-openrc
 pacman -S lvm2 cryptsetup glibc mkinitcpio
 pacman -S openssl openssl-1.1
 
-dinitctl enable dmeventd
-dinitctl enable lvm2
-dinitctl enable cryptsetup
+rc-update add dmeventd sysinit
+# rc-update add lvm2
+# rc-update add cryptsetup
 ```
 
 Добавим `HOOK` в `/etc/mkinitcpio.conf`
@@ -285,14 +283,10 @@ useradd -m -G wheel -s /bin/bash ИМЯ
 passwd ИМЯ
 ```
 
-Отключаем пароль sudo для `wheel`. А так же отключи запрос пароля для `poweroff` это позволит управлять питанием из WM
+Позволим повышать привилегии пользователям состоящим в `wheel`.
 
 ```bash
-sed '/%wheel ALL=(ALL:ALL) ALL/s/^#//' -i /etc/sudoers
-#echo -e '## Same thing without a password\n \
-%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/poweroff\n \
-%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/reboot\n \
-' >> /etc/sudoers
+sed '/%wheel ALL=(ALL:ALL) ALL/s/^#//' -i /etc/sudoers' >> /etc/sudoers
 ```
 
 ## Завершение установки базового образа
@@ -339,15 +333,15 @@ grub-mkconfig -o /boot/grub/grub.cfg
 Запустим сервис обеспечивающий авторизацию в системе
 
 ```bash
-#elogind
-dinitctl enable elogind
-dinitctl start elogind
+#IF elogind
+rc-update add elogind
+rc-service elogind start
 usermod -aG video ИМЯ
 
-#seatd
-#dinitctl enable seatd
-#dinitctl start seatd
-#usermod -aG seat ИМЯ
+#IF seatd
+rc-update add seatd
+rc-service seatd start
+#usermod -aG seat $USER
 ```
 
 Пропишем в системный `enviroment` выбранный в прошлом пункте LM
@@ -365,19 +359,15 @@ echo -e '# Load profile from home\n[[ -f $HOME/.profile ]] && . $HOME/.profile' 
 
 ## Установка WM
 
-Установим `dwm` и терминал `foot`
+Установим `sway` и терминал `foot`
 Стоит отметить что `jq` используется в некоторых скриптах WM, по этой причине он внесет список необходимых.
 
 ```bash
-sudo pacman -S foot mako wl-clipboard jq
-```
-
-Для функционирования и настройки WM нам потребуются
-
-```bash
-sudo pacman -S git pkg-config
-sudo pacman -S libinput wayland wlroots wayland-protocols libxkbcommon fcft pixman tllist
-yay -S wbg
+sudo pacman -S git curl micro
+sudo pacman -S foot mako wl-clipboard jq sway swaybg xdg-utils
+yay -S swaylock-effects
+sudo pacman -S xcursor-breeze
+yay -S matcha-gtk-theme
 ```
 
 ## Поддержка xwayland
@@ -393,7 +383,6 @@ sudo pacman -S xorg-xwayland
 ```bash
 git clone https://github.com/MuratovAS/dotfiles.git
 cp -r dotfiles/.* ~/ && rm -rf ~/.git ~/design
-cd ~/.local/src
 ```
 
 ## ZSH как альтернатива BASH
@@ -408,6 +397,14 @@ chsh -s $(which zsh)
 Настройка `zsh` (выполнять не требуется, если скопировали мой dotfiles)
 
 ```bash
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-.config/oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-.config/oh-my-zsh/custom}/plugins/zsh-autosuggestions
+```
+Тонкая настройка
+
+```bash
+mkdir .config
 mv ~/.oh-my-zsh ~/.config/oh-my-zsh
 sed -i 's@\.oh-my-zsh@\.config/oh-my-zsh@g' ~/.zshrc
 sed -i 's@plugins=(git)@plugins=(git zsh-autosuggestions zsh-syntax-highlighting)@g' ~/.zshrc
@@ -416,27 +413,21 @@ sed -i '/mode disabled/s/^#//' ~/.zshrc
 sed -i '/ prompt_context/s/^/#\ /' ~/.config/oh-my-zsh/themes/agnoster.zsh-theme
 ```
 
-```bash
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-.config/oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-.config/oh-my-zsh/custom}/plugins/zsh-autosuggestions
-```
-
 ## XDG
 
 Установим утилиты `xdg`, это позволит обеспечить ассоциацию файлов и добавить поддержку ярлыков. Пакет `xdg-user-dirs` необходим некоторым приложениям для доступа к стандартным каталогом. От него можно отказаться, вручную создав каталоги.
 
 ```bash
 sudo pacman -S xdg-utils xdg-user-dirs
-#mkdir ~/Share ~/Download ~/Documents ~/Media ~/Templates
-#xdg-user-dirs-update --set DESKTOP ~/Media
-#xdg-user-dirs-update --set DOCUMENTS ~/Documents
-#xdg-user-dirs-update --set DOWNLOAD ~/Download
-#xdg-user-dirs-update --set MUSIC ~/Media
-#xdg-user-dirs-update --set PICTURES ~/Media
-#xdg-user-dirs-update --set PUBLICSHARE ~/Share
-#xdg-user-dirs-update --set TEMPLATES ~/Templates
-#xdg-user-dirs-update --set VIDEOS ~/Media
+mkdir ~/Share ~/Download ~/Documents ~/Media ~/Templates
+xdg-user-dirs-update --set DESKTOP ~/Media
+xdg-user-dirs-update --set DOCUMENTS ~/Documents
+xdg-user-dirs-update --set DOWNLOAD ~/Download
+xdg-user-dirs-update --set MUSIC ~/Media
+xdg-user-dirs-update --set PICTURES ~/Media
+xdg-user-dirs-update --set PUBLICSHARE ~/Share
+xdg-user-dirs-update --set TEMPLATES ~/Templates
+xdg-user-dirs-update --set VIDEOS ~/Media
 ```
 
 ## Установка pipewire
@@ -451,8 +442,8 @@ sudo pacman -S pipewire-alsa pipewire pipewire-jack pipewire-pulse pipewire-medi
 
 ```bash
 sudo pacman -S xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk
-mkdir .config/xdg-desktop-portal/
-cp /usr/share/xdg-desktop-portal/gtk-portals.conf .config/xdg-desktop-portal/portals.conf
+# mkdir .config/xdg-desktop-portal/
+# cp /usr/share/xdg-desktop-portal/gtk-portals.conf .config/xdg-desktop-portal/portals.conf
 ```
 
 ## Шрифты
@@ -476,8 +467,8 @@ fc-cache -f -v
 Установка `chrony`, позволит синхронизировать время с NTP сервером
 
 ```bash
-sudo pacman -S chrony chrony-dinit
-sudo dinitctl enable chrony
+sudo pacman -S chrony chrony-openrc
+sudo rc-update add chrony
 ```
 
 ## Поддержка `appimage`
@@ -491,33 +482,34 @@ sudo pacman -S fuse-common fuse3 fuse2
 ## Все что может пригодиться на ноутбуке
 
 ```bash
-sudo pacman -S tlp tlp-dinit   # менеджер питания
-sudo dinitctl enable tlp
+sudo pacman -S tlp tlp-openrc   # менеджер питания
+sudo rc-update add tlp
 #yay -S tlpui
 
 yay -S poweralertd              # Уведомляет о состоянии питания
 
-sudo pacman -S bluez bluez-utils bluez-dinit
-sudo yay -S bluetuith-bin  # TUI bluetooth
-sudo usermod -aG rfkill ИМЯ
-sudo usermod -aG lp ИМЯ
-sudo dinitctl enable bluetoothd
+sudo pacman -S bluez bluez-utils bluez-openrc
+yay -S bluetuith-bin  # TUI bluetooth
+sudo usermod -aG rfkill $USER
+sudo usermod -aG lp $USER
+sudo rc-update add bluetoothd
+sudo rc-service bluetoothd restart
 
 yay -S light            # Управляет подсветкой
 ```
 
 ### Дополнительные пакеты
 
-Данные пакеты используются в текущей конфигурации `dwl`, но установка не обязательна
+Данные пакеты используются в текущей конфигурации `sway`, но установка не обязательна
 
 ```bash
 sudo pacman -S playerctl                        # Управление медиа плиром из waybar
 sudo pacman -S wf-recorder
 sudo pacman -S slurp grim swappy    # Инструменты для снимков экрана
 sudo pacman -S wlsunset                                 # Ночный режим, фильтр синего цвета
-sudo pacman -S khal                             # Календарь
+# sudo pacman -S khal                             # Календарь
+# khal configure
 sudo pacman -S gnome-keyring                    # Систума управления ключами (необходима для многих приложений)
-khal configure
 ```
 
 ## Поддержка `flatpak`
@@ -525,6 +517,7 @@ khal configure
 ```bash
 sudo pacman -S flatpak flatpak-builder
 flatpak install flathub com.github.tchx84.Flatseal
+flatpak install flathub io.github.flattool.Warehouse
 ```
 
 ## Оформление `GTK`
@@ -539,44 +532,63 @@ yay -S matcha-gtk-theme
 Большинство приложений по умолчанию работают через `xwayland`, что не очень правильно. Так же это ограничивает разрешения изображения, и на HiDPI мониторе будет выглядеть печально. Данную проблему можно исправить файлом конфигурации, принудительно запускающий `wayland` версию приложения. В некоторых случаях требуется вручную создать файл для вашей версии `electron`.
 
 ```bash
-ln -s ~/.config/electron-flags.conf ~/.config/electron12-flags.conf
-ln -s ~/.config/electron-flags.conf ~/.config/electron13-flags.conf
 ln -s ~/.config/electron-flags.conf ~/.config/electron18-flags.conf
 ```
 
 ## Вход в систему без пароля
 
-```bash
-cp /etc/dinit.d/config/agetty-default.conf /etc/dinit.d/config/agetty-tty1.conf
-```
-
-Содержание `/etc/dinit.d/config/agetty-tty1.conf`
+Добавить `/etc/conf.d/agetty.tty1`
 
 ```bash
- # DO NOT REMOVE THIS FILE!
- # Note: You can copy and rename this file to the name of the tty you
- #     want (e.g.: /etc/dinit.d/config/agetty-tty1.conf will make a
- #     configuration specific to tty1)
- GETTY_BAUD=38400
- GETTY_TERM=linux
- GETTY_ARGS="-J -a ИМЯ"
+agetty_options="-J -a ИМЯ"
 ```
 
-## Disconnect CPU Boost AMD
 
-Содержание `/etc/dinit.d/legion`
+## Падает wifi после гибернации
+
+Создай `/lib/elogind/system-sleep/50-wifi-sleep` с правами на запуск
 
 ```
-type          = scripted
-command       = /bin/sh -c "echo 'passive' > /sys/devices/system/cpu/amd_pstate/status; echo 0 > /sys/devices/system/cpu/cpufreq/boost;"
-start-timeout = 5
-before        = tty1.target
+#!/bin/sh
+case $1/$2 in
+    pre/hibernate)
+        exec rmmod ath11k_pci
+    ;;
+
+    post/hibernate)
+        exec modprobe ath11k_pci
+    ;;
+esac
+```
+
+## Настройка режима сна
+
+`/etc/elogind/logind.conf.d/10-elogind.conf`
+
+```bash
+[Login]
+# elogind is not a system manager, so it does not remove IPC-items by default
+#RemoveIPC=no
+
+HandlePowerKey=poweroff
+HandleLidSwitch=suspend
+```
+
+## Настройка fprintd
+
+```bash
+sudo pacman -S fprintd
+```
+
+Добавить в `/etc/pam.d/system-local-login`
+```bash
+auth	  sufficient	pam_fprintd.so
 ```
 
 ```bash
-cd /etc/dinit.d/boot.d/
-sudo ln -s  ../legion legion
-sudo dinitctl enable legion 
+fprintd-delete "$USER"
+$ for finger in {left,right}-{thumb,{index,middle,ring,little}-finger}; do fprintd-enroll -f "$finger" "$USER"; done
+fprintd-verify
 ```
 
 ## Немного о ПО
@@ -589,11 +601,10 @@ sudo pacman -S seahorse
 sudo pacman -S gnome-disk-utility
 sudo pacman -S nautilus
 sudo pacman -S file-roller
+sudo pacman -S gnome-calculator
 
-yay -S buttermanager
-
-yay -S gnome-calculator-gtk3
-sudo pacman -S librewolf 
+yay -S buttermanager #lagacy
+yay -S syncthingtray
 ```
 
 Полезные TUI приложения
@@ -608,19 +619,22 @@ sudo pacman -S netcat
 Набор приложений для просмотра медиа файлов
 
 ```bash
-sudo pacman -S mpv imv zathura
+smbclient
+
+sudo pacman -S mpv mpv-mpris imv zathura
 sudo pacman -S zathura-pdf-poppler zathura-djvu
 sudo pacman -S ffmpeg ffmpegthumbnailer
-#sudo pacman -S f3d
 ```
 
 Расширение поддержки устройств и форматов файлов
 
 ```bash
 sudo pacman -S exfat-utils
-yay -S ntfsprogs-ntfs3
+# sudo pacman -S dosfstools
+# yay -S ntfsprogs-ntfs3
 sudo pacman -S p7zip unrar
 sudo pacman -S gvfs-mtp
+sudo pacman -S gvfs-smb smbclient
 ```
 
 Пользовательские приложения
@@ -633,32 +647,40 @@ flatpak install flathub com.github.marktext.marktext
 flatpak install flathub com.jgraph.drawio.desktop
 flatpak install flathub io.github.f3d_app.f3d
 flatpak install flathub org.telegram.desktop
-flatpak install flathub com.jeffser.Alpaca
 flatpak install flathub com.github.Murmele.Gittyup
-flatpak install flathub io.github.flattool.Warehouse
+flatpak install flathub org.chromium.Chromium
+flatpak install flathub org.mozilla.firefox
+flatpak install flathub io.gitlab.librewolf-community
+flatpak install flathub io.github.ungoogled_software.ungoogled_chromium
 
 sudo pacman -S kdeconnect
-sudo pacman -S tailscale
-sudo pacman -S tailscale-dinit 
-sudo dinitctl enable tailscaled
+sudo pacman -S tailscale tailscale-openrc
+sudo rc-update add tailscaled
 yay -S trayscale
+sudo tailscale set --operator=$USER
+```
+
+Браузер по умолчанию
+
+```bash
+xdg-settings set default-web-browser org.mozilla.firefox.desktop
 ```
 
 ## Установка `docker`
 
 ```bash
-sudo pacman -S docker docker-compose docker-dinit
-sudo dinitctl start dockerd
-sudo usermod -aG docker $USER
+sudo pacman -S docker docker-compose docker-openrc
+sudo rc-update add libvirtd
+sudo usermod -aG docker $(whoami)
 yay -S lazydocker
 ```
 
 ## Установка `kvm/qemu`
 
-```
-sudo pacman -S dmidecode virt-manager virt-viewer qemu edk2-ovmf vde2 dnsmasq bridge-utils libvirt-dinit #qemu-full
+```bash
+sudo pacman -S virt-manager virt-viewer qemu qemu-arch-extra edk2-ovmf vde2 dnsmasq libvirt-openrc
+sudo rc-update add libvirtd
 sudo usermod -a -G libvirt $(whoami)
-sudo chown -R libvirt-qemu:libvirt-qemu /var/lib/libvirt 
 ```
 
 ## Костыль для тем в `flatpak`
@@ -671,16 +693,17 @@ flatpak install flathub org.gtk.Gtk3theme.Breeze
 
 Так же следует добавить `env` для всех `flatpak` приложений
 
-```
+```bash
 GTK_THEME=Matcha-dark-sea
 ICON_THEME=AdwaitaLegacy
 ```
 
 Подробнее:
-[Flatpak documentation they are blacklisted](https://docs.flatpak.org/en/latest/sandbox-permissions.html?ref=itsfoss.com#filesystem-access).
-[Apply GTK System Themes on Flatpak Apps in Linux](https://itsfoss.com/flatpak-app-apply-theme/)
+- [Flatpak documentation they are blacklisted](https://docs.flatpak.org/en/latest/sandbox-permissions.html?ref=itsfoss.com#filesystem-access).
+
+- [Apply GTK System Themes on Flatpak Apps in Linux](https://itsfoss.com/flatpak-app-apply-theme/)
 
 ## Credit:
 
-[10 Linux cryptsetup Examples for LUKS Key Management (How to Add, Remove, Change, Reset LUKS encryption Key)](https://www.thegeekstuff.com/2016/03/cryptsetup-lukskey/)
-[Artix Linux. Установка с полным/частичным шифрованием; Хабр](https://habr.com/ru/articles/716308/)
+- [10 Linux cryptsetup Examples for LUKS Key Management (How to Add, Remove, Change, Reset LUKS encryption Key)](https://www.thegeekstuff.com/2016/03/cryptsetup-lukskey/)
+- [Artix Linux. Установка с полным/частичным шифрованием; Хабр](https://habr.com/ru/articles/716308/)

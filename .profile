@@ -1,4 +1,5 @@
 #!/bin/sh
+
 # Default
 export EDITOR=micro
 export VISUAL=micro
@@ -35,17 +36,12 @@ export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 
 # export TERM="xterm-256color"
 
-# Launch WM
-if [ "$XDG_SESSION_TYPE" = "tty" ] && [ "$XDG_SESSION_ID" = "1" ]; 
+# launch WM
+if [ "$(tty)" = "/dev/tty1" ] && [ "$XDG_SESSION_TYPE" = "tty" ] && [ "$XDG_SESSION_ID" = "1" ]; ; 
 then
-	light -S 60
-	export TERM_COMMAND="foot"
-	export GTK_THEME=Matcha-dark-sea
-	`sleep 3 && \
-	gsettings set org.gnome.desktop.interface gtk-theme Matcha-dark-sea; \
-	gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark' \
-	gsettings set org.gnome.desktop.interface icon-theme AdwaitaLegacy; \
-	gsettings set org.gnome.desktop.interface cursor-theme Breeze; \
-	gsettings set org.gnome.desktop.interface font-name "Roboto 11"` &
-	dbus-run-session dwl
+	source ~/.config/themes_env
+	export XDG_CURRENT_DESKTOP=sway
+	# export XDG_SESSION_DESKTOP=sway
+	light -S 70
+	dbus-run-session sway
 fi

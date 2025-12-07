@@ -1,0 +1,34 @@
+/* theme specific color values */
+@define-color base00 BASE00;
+@define-color base01 BASE01;
+@define-color base02 BASE02;
+@define-color base03 BASE03;
+@define-color base04 BASE04;
+@define-color base05 BASE05;
+@define-color base06 BASE06;
+@define-color base07 BASE07;
+@define-color base08 BASE08;
+@define-color base09 BASE09;
+@define-color base0A BASE0A;
+@define-color base0B BASE0B;
+@define-color base0C BASE0C;
+@define-color base0D BASE0D;
+@define-color base0E BASE0E;
+@define-color base0F BASE0F;
+
+@define-color regular0 REGULAR0;
+@define-color regular1 REGULAR1;
+@define-color regular2 REGULAR2;
+@define-color regular3 REGULAR3;
+@define-color regular4 REGULAR4;
+@define-color regular5 REGULAR5;
+@define-color regular6 REGULAR6;
+@define-color regular7 REGULAR7;
+@define-color bright0 BRIGHT0;
+@define-color bright1 BRIGHT1;
+@define-color bright2 BRIGHT2;
+@define-color bright3 BRIGHT3;
+@define-color bright4 BRIGHT4;
+@define-color bright5 BRIGHT5;
+@define-color bright6 BRIGHT6;
+@define-color bright7 BRIGHT7;

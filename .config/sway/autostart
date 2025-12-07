@@ -1,0 +1,47 @@
+# enable idle mode
+exec $idle
+
+exec {
+	'[ -x "$(command -v VBoxService)" ] && sudo VBoxService -f'
+	'[ -x "$(command -v spice-vdagent)" ] && spice-vdagent'
+}
+
+# if-exists autostarts
+exec {
+
+	#SYS
+	# '[ -x "$(command -v foot)" ] && sleep 2 && foot --server'
+	'[ -x "$(command -v /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1)" ] && /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1'
+	'dbus-update-activation-environment --all'
+
+	#PipeWire
+	'[ -x "$(command -v pipewire)" ] && sleep 0.12 && pipewire'
+	'[ -x "$(command -v wireplumber)" ] && sleep 0.12 && wireplumber'
+	'[ -x "$(command -v pipewire-media-session)" ] && sleep 0.12 && pipewire-media-session'
+	'[ -x "$(command -v pipewire-pulse)" ] && sleep 0.12 && pipewire-pulse'
+
+	'[ -x "$(command -v /usr/lib/xdg-desktop-portal-wlr)" ] && sleep 5 && /usr/lib/xdg-desktop-portal-wlr'
+	'[ -x "$(command -v /usr/lib/xdg-desktop-portal)" ] &&  sleep 7 && /usr/lib/xdg-desktop-portal -r'
+	
+	#UI
+	'[ -x "$(command -v wlsunset)" ] && $HOME/.config/sway/scripts/sunset.sh "on"'
+
+	# bluetooth
+	'[ -x "$(command -v rfkill)" ] && rfkill unblock bluetooth'
+	'[ -x "$(command -v bluetoothctl)" ] && sleep 1 && bluetoothctl power off'
+
+	# If you start without delay, the icon in the status bar is not displayed
+	'[ -x "$(command -v trayscale)" ] && sleep 1 && trayscale --hide-window
+	'[ -x "$(command -v org.telegram.desktop)" ] && sleep 2 && org.telegram.desktop -startintray
+	'[ -x "$(command -v kdeconnect-indicator)" ] && sleep 8 && kdeconnect-indicator
+	'[ -x "$(command -v syncthingtray)" ] && sleep 10 && QT_QPA_PLATFORM=xcb syncthingtray
+	'[ -x "$(command -v gpgconf)" ] && sleep 10 && gpgconf --launch gpg-agent
+}
+
+exec_always {
+	'[ -x "$(command -v mako)" ] && $notifications'
+	'[ -x "$(command -v playerctl)" ] && pkill playerctl;  playerctl -a metadata --format \'{{status}} {{title}}\' --follow | while read line; do pkill -RTMIN+5 waybar; done'
+	'[ -x "$(command -v poweralertd)" ] && pkill poweralertd; exec poweralertd -s -i "line power" &'
+	'[ -x "$(command -v sworkstyle)" ] && pkill sworkstyle; sworkstyle &> /dev/null'
+	'[ -x "$(command -v sway-xkb-switcher)" ] && pkill sway-xkb-switcher; exec sway-xkb-switcher --default-lang "English (US)"'
+}

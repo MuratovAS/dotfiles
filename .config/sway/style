@@ -1,0 +1,82 @@
+set $color_template_script "s/BASE00/$base00/g;\
+							s/BASE01/$base01/g;\
+							s/BASE02/$base02/g;\
+							s/BASE03/$base03/g;\
+							s/BASE04/$base04/g;\
+							s/BASE05/$base05/g;\
+							s/BASE06/$base06/g;\
+							s/BASE07/$base07/g;\
+							s/BASE08/$base08/g;\
+							s/BASE09/$base09/g;\
+							s/BASE0A/$base0A/g;\
+							s/BASE0B/$base0B/g;\
+							s/BASE0C/$base0C/g;\
+							s/BASE0D/$base0D/g;\
+							s/BASE0E/$base0E/g;\
+							s/BASE0F/$base0F/g;\
+							s/REGULAR0/$regular0/g;\
+							s/REGULAR1/$regular1/g;\
+							s/REGULAR2/$regular2/g;\
+							s/REGULAR3/$regular3/g;\
+							s/REGULAR4/$regular4/g;\
+							s/REGULAR5/$regular5/g;\
+							s/REGULAR6/$regular6/g;\
+							s/REGULAR7/$regular7/g;\
+							s/BRIGHT0/$bright0/g;\
+							s/BRIGHT1/$bright1/g;\
+							s/BRIGHT2/$bright2/g;\
+							s/BRIGHT3/$bright3/g;\
+							s/BRIGHT4/$bright4/g;\
+							s/BRIGHT5/$bright5/g;\
+							s/BRIGHT6/$bright6/g;\
+							s/BRIGHT7/$bright7/g;\
+							s/GTK-THEME/$gtk-theme/g;\
+							s/ICON-THEME/$icon-theme/g;\
+							s/CURSOR-THEME/$cursor-theme/g;\
+							"
+
+exec_always {
+	gsettings set org.gnome.desktop.interface gtk-theme $gtk-theme
+	gsettings set org.gnome.desktop.interface icon-theme $icon-theme
+	gsettings set org.gnome.desktop.interface cursor-theme $cursor-theme
+	gsettings set org.gnome.desktop.interface color-scheme $color-scheme
+	gsettings set org.gnome.desktop.interface font-name $gui-font
+		
+	swaymsg seat seat0 xcursor_theme $cursor-theme
+
+	'mkdir -p $HOME/.config/waybar && \
+		cat $HOME/.config/sway/themes/templates/waybar \
+		| sed -e $color_template_script > $HOME/.config/waybar/theme.css'
+
+	'mkdir -p $HOME/.config/foot && \
+		cat $HOME/.config/sway/themes/templates/foot \
+		| sed -e $color_template_script \
+		| sed -e "s/=#/=/g" > $HOME/.config/foot/foot.ini'
+
+	'mkdir -p $HOME/.config/mako && \
+		cat $HOME/.config/sway/themes/templates/mako \
+		| sed -e $color_template_script > $HOME/.config/mako/mako'
+
+	'mkdir -p $HOME/.config/swaylock && \
+		cat $HOME/.config/sway/themes/templates/swaylock \
+		| sed -e $color_template_script > $HOME/.config/swaylock/swaylock'
+
+
+	# for native app
+	'cat $HOME/.config/sway/themes/templates/themes_env \
+		| sed -e $color_template_script > $HOME/.config/themes_env'
+
+	# for sway run app
+	export GTK_THEME=$gtk-theme
+	export ICON_THEME=$icon-theme
+	export XCURSOR_THEME=$cursor-theme
+
+
+	# for flatpak
+	sed -i 's/\(GTK_THEME=\)[^"]*/\1$gtk-theme/' $HOME/.local/share/flatpak/overrides/global
+	sed -i 's/\(ICON_THEME=\)[^"]*/\1$icon-theme/' $HOME/.local/share/flatpak/overrides/global		
+	sed -i 's/\(XCURSOR_THEME=\)[^"]*/\1$cursor-theme/' $HOME/.local/share/flatpak/overrides/global
+ 	# cp -r /usr/share/themes/ $HOME/.themes/
+ 	# cp -r /usr/share/icons/ $HOME/.icons/ 
+
+}

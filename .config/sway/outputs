@@ -1,0 +1,9 @@
+output * bg $background fill
+
+# output "Virtual-1" resolution 1680x1050  position 0,0 scale 1
+
+# output HDMI-A-1 pos 0 0 scale 2
+# output eDP-1 pos 0 1080 res 1920 1080
+
+# workspace 1 output HDMI-A-1
+# workspace 9 output eDP-1
