@@ -604,7 +604,9 @@ sudo pacman -S file-roller
 sudo pacman -S gnome-calculator
 
 yay -S buttermanager #lagacy
-yay -S syncthingtray
+# yay -S syncthingtray
+sudo pacman -S syncthing
+flatpak install flathub io.github.martchus.syncthingtray
 ```
 
 Полезные TUI приложения
