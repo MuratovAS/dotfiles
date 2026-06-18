@@ -54,6 +54,26 @@ get_focused_id() {
     swaymsg -t get_tree | jq '.. | objects | select(.focused == true) | .id'
 }
 
+# Floating windows don't participate in the tiling tree / workspace
+# layout the way tiled containers do, so all the monitor-boundary logic
+# below doesn't apply to them. If the focused window is floating, just
+# let sway do its normal thing — focus switches to another window, move
+# repositions it on screen — and skip everything else.
+is_focused_floating() {
+    local t
+    t=$(swaymsg -t get_tree | jq -r '.. | objects | select(.focused == true) | .type')
+    [ "$t" == "floating_con" ]
+}
+
+if is_focused_floating; then
+    if [ "$mode" == "move" ]; then
+        swaymsg move "$dir" >/dev/null
+    else
+        swaymsg focus "$dir" >/dev/null
+    fi
+    exit 0
+fi
+
 get_focused_output() {
     swaymsg -t get_outputs | jq -r '.[] | select(.focused == true) | .name'
 }
