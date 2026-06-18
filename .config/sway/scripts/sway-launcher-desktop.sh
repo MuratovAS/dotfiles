@@ -319,7 +319,7 @@ readarray -t COMMAND_STR <<<$(
     --no-multi --cycle \
     --prompt="${GLYPH_PROMPT-# }" \
     --header='' --no-info --margin='1,2' \
-    --color='16,gutter:-1' \
+    --color='16,gutter:0' \
     <"$FZFPIPE"
 ) || exit 1
 # Get the last line of the fzf output. If there were no matches, it contains the query which we'll treat as a custom command

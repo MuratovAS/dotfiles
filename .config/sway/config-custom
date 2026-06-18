@@ -22,6 +22,8 @@ for_window [app_id="Chromium"] inhibit_idle fullscreen
 for_window [app_id="firefoxdeveloperedition"] inhibit_idle fullscreen
 
 # user
+for_window [app_id="org.gnome.Decibels"] floating enable
+
 for_window [title="Calculator"] floating enable
 for_window [app_id="nextcloud"] floating enable
 for_window [title="KiCad *"] floating enable, sticky enable

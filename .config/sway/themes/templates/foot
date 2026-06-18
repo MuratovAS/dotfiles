@@ -59,7 +59,7 @@ blink=yes
 # hide-when-typing=no
 # alternate-scroll-mode=yes
 
-[colors]
+[colors-dark]
 alpha=0.95
 foreground=BASE06
 background=BASE01

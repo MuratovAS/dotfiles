@@ -364,7 +364,8 @@ echo -e '# Load profile from home\n[[ -f $HOME/.profile ]] && . $HOME/.profile' 
 
 ```bash
 sudo pacman -S git curl micro
-sudo pacman -S foot mako wl-clipboard jq sway swaybg xdg-utils
+sudo pacman -S foot mako wl-clipboard jq sway swaybg xdg-utils waybar
+yay -S sworkstyle  
 yay -S swaylock-effects
 sudo pacman -S xcursor-breeze
 yay -S matcha-gtk-theme

@@ -41,10 +41,20 @@
 	
     // Modules configuration
 	"sway/workspaces": {
-		"active-only": false,
+		"active-only": true,
 		"disable-scroll": true,
-		"all-outputs": true,
-		"sort-by-number": true,
+		"all-outputs": false,
+		// "persistent-workspaces": {
+		//     "1": ["DP-2", "DP-1"],
+		//     "2": ["DP-2"],
+		//     "3": ["DP-2"],
+		//     "4": ["DP-2"],
+		//     "5": ["DP-2"],
+		//     "6": ["eDP-1"],
+		//     "7": ["eDP-1"],
+		//     "8": ["eDP-1"],
+		//     "9": ["eDP-1"]
+		// },
 		"format": "{icon}",
 		// "format-icons": {
 		//    "1": "",
@@ -108,9 +118,9 @@
         	// "format-alt": "{ifname}: {ipaddr}/{cidr}"
 	},
 	"pulseaudio": {
-		"format": "{icon}  {volume}%",
+		"format": "{icon} {volume}%",
 		"format-muted": "󰖁",
-		"format-bluetooth": "{icon}󰂰 {volume}% 󰍬 {format_source}",
+		"format-bluetooth": "{icon} 󰂰 {volume}%",
         "format-icons": {
             "headphone": "",
             "hands-free": "",
@@ -131,8 +141,9 @@
     "temperature": {
       //"min-length": 2,
       "interval": 2,
-      "hwmon-path": "/sys/class/hwmon/hwmon4/temp1_input",
-      "critical-threshold": 65,
+      "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+      "critical-threshold": 80,
+      "warning-threshold": 70,
       "format": "{icon} {temperatureC}°C",
       "format-icons": ["", "", ""],
       "tooltip": false,

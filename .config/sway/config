@@ -1,7 +1,7 @@
 set $swaydir $HOME/.config/sway
 
 set $theme $swaydir/themes/everforest
-set $background $swaydir/bg2.jpg
+set $background $swaydir/bg1.png
 
 # set $mod Mod1
 set $mod Mod4

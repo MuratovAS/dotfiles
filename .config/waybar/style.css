@@ -47,7 +47,7 @@ window#waybar {
 }
 
 #workspaces button:hover {
-    color: @base01;
+    /* color: @base01; */
 	border-radius: 5px;
 	opacity: 0.6;
 }
@@ -76,6 +76,19 @@ window#waybar {
 
 #backlight {
 	color: @regular3;	
+}
+
+#temperature {
+}
+
+#temperature.warning:not(.charging) {
+    background-color: @regular3;
+	color: @base01;
+}
+
+#temperature.critical:not(.charging) {
+    background-color: @regular1;
+	color: @base01;
 }
 
 #custom-scratchpad {

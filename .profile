@@ -42,6 +42,6 @@ then
 	source ~/.config/themes_env
 	export XDG_CURRENT_DESKTOP=sway
 	# export XDG_SESSION_DESKTOP=sway
-	light -S 70
+	light -S 50
 	dbus-run-session sway
 fi
