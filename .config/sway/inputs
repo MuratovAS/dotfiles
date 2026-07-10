@@ -14,6 +14,9 @@ input type:touchpad {
 	natural_scroll enabled
 }
 
+input "1739:52839:SYNA8018:00_06CB:CE67_Touchpad" {
+	pointer_accel 0.2
+}
 
 input "2:10:TPPS/2_Elan_TrackPoint" {
 	accel_profile adaptive

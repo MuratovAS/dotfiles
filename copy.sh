@@ -4,6 +4,7 @@ mkdir ./.config
 mkdir ./.config/micro/
 mkdir ./.config/micro/colorschemes
 
+cp -r  ~/.config/xdg-desktop-portal-wlr ./.config
 cp -r  ~/.config/sway ./.config
 cp -r  ~/.config/waybar ./.config
 rm ./.config/waybar/theme.css
